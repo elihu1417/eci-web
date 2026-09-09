@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Placeholder from "./Placeholder";
 import { visibles, rubrosActivos, MEDIDAS, iniciales, type Pieza, type Rubro } from "@/lib/content";
 import { urlMedia } from "@/lib/media";
@@ -45,11 +46,15 @@ function CajaLogo({ pieza, tam = 34 }: { pieza: Pieza; tam?: number }) {
 
 function Tarjeta({ p }: { p: Pieza }) {
   const [hover, setHover] = useState(false);
+  /* Una vez que el cursor entró, la imagen de hover ya se pidió y se
+     queda montada; no tiene sentido volver a descargarla. */
+  const [tocada, setTocada] = useState(false);
   const video = useRef<HTMLVideoElement>(null);
   const medidas = MEDIDAS[p.formato];
 
   const alEntrar = () => {
     setHover(true);
+    setTocada(true);
     const v = video.current;
     if (v) {
       v.currentTime = 0;
@@ -76,11 +81,12 @@ function Tarjeta({ p }: { p: Pieza }) {
       >
         {/* Recurso base */}
         {p.tarjeta ? (
-          <img
+          <Image
             src={urlMedia(p.tarjeta)}
             alt=""
-            loading="lazy"
-            className="absolute inset-0 h-full w-full object-cover"
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+            className="object-cover"
           />
         ) : (
           <Placeholder formato={p.formato} etiqueta="recurso base" variante={1} />
@@ -108,12 +114,18 @@ function Tarjeta({ p }: { p: Pieza }) {
             }`}
           >
             {p.tarjetaHover ? (
-              <img
-                src={urlMedia(p.tarjetaHover)}
-                alt=""
-                loading="lazy"
-                className="h-full w-full object-cover"
-              />
+              /* Solo se descarga cuando el cursor entra por primera vez.
+                 Antes se bajaban las dos imágenes de cada tarjeta aunque
+                 nadie pasara por encima: el doble de peso en la rejilla. */
+              tocada && (
+                <Image
+                  src={urlMedia(p.tarjetaHover)}
+                  alt=""
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                  className="object-cover"
+                />
+              )
             ) : (
               <Placeholder formato={p.formato} etiqueta="segundo recurso" variante={2} esHover />
             )}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 import Placeholder from "./Placeholder";
 import { imagenesDe, type Imagen, type Modulo } from "@/lib/content";
 import { urlMedia } from "@/lib/media";
@@ -54,11 +55,12 @@ function Recorte({
       aria-label={`Abrir ${imagen.pie ?? "imagen"} en tamaño original`}
     >
       {imagen.src ? (
-        <img
+        <Image
           src={urlMedia(imagen.src)}
           alt={imagen.pie ?? ""}
-          loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover/img:scale-[1.03]"
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 520px"
+          className="object-cover transition-transform duration-700 group-hover/img:scale-[1.03]"
         />
       ) : (
         <Placeholder
@@ -144,7 +146,7 @@ function Visor({
       <div className="relative flex min-h-0 flex-1 items-center justify-center px-4 pb-4 md:px-20">
         <Flecha lado="izq" onClick={() => onMover(-1)} />
         <div
-          className="max-h-full overflow-hidden rounded-lg border border-[var(--color-borde)]"
+          className="relative max-h-full overflow-hidden rounded-lg border border-[var(--color-borde)]"
           style={{
             aspectRatio: `${img.w} / ${img.h}`,
             height: vertical ? "100%" : undefined,
@@ -153,10 +155,13 @@ function Visor({
           }}
         >
           {img.src ? (
-            <img
+            <Image
               src={urlMedia(img.src)}
               alt={img.pie ?? ""}
-              className="h-full w-full object-contain"
+              fill
+              sizes="100vw"
+              priority
+              className="object-contain"
             />
           ) : (
             <Placeholder

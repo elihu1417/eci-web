@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import Placeholder from "@/components/Placeholder";
 import ModulosCaso from "@/components/ModulosCaso";
@@ -94,14 +95,17 @@ export default async function Caso({
           <ReproductorYouTube id={p.media.id} titulo={p.titulo} />
         ) : (
           <div
-            className="overflow-hidden rounded-2xl border border-[var(--color-borde)]"
+            className="relative overflow-hidden rounded-2xl border border-[var(--color-borde)]"
             style={{ aspectRatio: "16 / 9" }}
           >
             {p.portada ? (
-              <img
+              <Image
                 src={urlMedia(p.portada)}
                 alt=""
-                className="h-full w-full object-cover"
+                fill
+                sizes="(max-width: 1100px) 100vw, 1100px"
+                priority
+                className="object-cover"
               />
             ) : (
               <Placeholder formato="horizontal" etiqueta="portada del caso" />
