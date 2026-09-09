@@ -40,6 +40,10 @@ export default function FeedReels({ inicial }: { inicial?: string }) {
   const [guia, setGuia] = useState(false);
   /* Videos que no cargaron: se sustituyen por el marcador */
   const [fallidos, setFallidos] = useState<Record<number, boolean>>({});
+  /* Hasta que el video activo pueda reproducirse, ninguno de sus
+     vecinos pide un solo byte. Antes los tres montados atacaban la red
+     a la vez y el primero tardaba de más en arrancar. */
+  const [activoListo, setActivoListo] = useState(false);
 
   /* Posiciona el feed en la pieza pedida cuando se entra en frío */
   useEffect(() => {
@@ -79,6 +83,7 @@ export default function FeedReels({ inicial }: { inicial?: string }) {
     // La URL sigue a la pieza visible, para que sea compartible
     const p = LISTA[activo];
     if (p) window.history.replaceState(null, "", `/reels/${p.slug}`);
+    setActivoListo(false);
   }, [activo, sonido]);
 
   /* Teclado */
@@ -130,7 +135,14 @@ export default function FeedReels({ inicial }: { inicial?: string }) {
                     loop
                     muted={!sonido || i !== activo}
                     playsInline
-                    preload={i === activo ? "auto" : "metadata"}
+                    preload={
+                      i === activo
+                        ? "auto"
+                        : activoListo && i === activo + 1
+                        ? "metadata"
+                        : "none"
+                    }
+                    onCanPlay={() => { if (i === activo) setActivoListo(true); }}
                     onError={() => setFallidos((f) => ({ ...f, [i]: true }))}
                     className="relative h-full w-full object-cover"
                   />

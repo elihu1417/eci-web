@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Placeholder from "@/components/Placeholder";
+import VideoDiferido from "@/components/VideoDiferido";
 import { SITIO, SERVICIOS } from "@/lib/sitio";
 import { visibles } from "@/lib/content";
 import { urlMedia } from "@/lib/media";
@@ -70,13 +71,8 @@ export default function Home() {
                   <div className="absolute inset-0">
                     <Placeholder formato="vertical" etiqueta="reel de marca" />
                   </div>
-                  <video
+                  <VideoDiferido
                     src={urlMedia(heroPieza.media.src)}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
                     className="h-full w-full object-cover"
                   />
                   <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/80 to-transparent" />

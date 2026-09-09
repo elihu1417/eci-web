@@ -18,6 +18,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
+      <head>
+        {/* La tipografía de titulares se pide de inmediato: es la que
+            dibuja el texto grande del hero y sin ella hay salto visual. */}
+        <link
+          rel="preload"
+          href="/fonts/BricolageGrotesque.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        {/* R2 sirve el video: abrir la conexión antes ahorra el saludo
+            TLS cuando el reproductor la necesita. */}
+        <link rel="preconnect" href="https://pub-af9b91193f87401e8189e8e88ccc9f19.r2.dev" crossOrigin="anonymous" />
+      </head>
       <body>
         <Nav />
         <main>{children}</main>
