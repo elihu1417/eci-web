@@ -5,6 +5,7 @@ import Image from "next/image";
 import Placeholder from "./Placeholder";
 import { imagenesDe, type Imagen, type Modulo } from "@/lib/content";
 import { urlMedia } from "@/lib/media";
+import { useCargaDiferida } from "@/lib/carga-diferida";
 
 /* Cuerpo del caso de estudio, armado por módulos.
 
@@ -20,6 +21,35 @@ import { urlMedia } from "@/lib/media";
    clic, el visor la abre COMPLETA, en su proporción original, y se
    recorre con las flechas. Por eso cada imagen guarda sus medidas
    reales aparte de la caja donde vive. */
+
+/* Capa animada sobre una imagen.
+
+   Las piezas de marca traen GIF —patrones, mockups en movimiento— que
+   convertimos a MP4. Se monta encima de la imagen, que hace de póster,
+   y arranca solo cuando el módulo entra en pantalla: un caso largo
+   puede llevar dos o tres y no tiene sentido bajarlos todos de golpe. */
+function CapaVideo({ src, ajuste }: { src: string; ajuste: string }) {
+  const { ref, cargar } = useCargaDiferida<HTMLDivElement>("100px");
+  const [listo, setListo] = useState(false);
+
+  return (
+    <div ref={ref} className="absolute inset-0">
+      {cargar && (
+        <video
+          src={urlMedia(src)}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          onCanPlay={() => setListo(true)}
+          className={"absolute inset-0 h-full w-full " + ajuste +
+            " transition-opacity duration-500 " + (listo ? "opacity-100" : "opacity-0")}
+        />
+      )}
+    </div>
+  );
+}
 
 function Pie({ children }: { children: React.ReactNode }) {
   return (
@@ -70,6 +100,9 @@ function Recorte({
           variante={variante}
         />
       )}
+      {/* La animación va encima: la imagen queda de póster */}
+      {imagen.video && <CapaVideo src={imagen.video} ajuste="object-cover" />}
+
       {/* Aviso de recorte: solo cuando el original no coincide con la caja */}
       {recortada && (
         <span className="absolute left-3 top-3 rounded-full bg-[color-mix(in_srgb,#111827_78%,transparent)] px-2.5 py-1 text-[10px] tracking-wider text-[var(--color-naranja)] backdrop-blur-sm">
@@ -170,6 +203,7 @@ function Visor({
               etiqueta="tamaño original"
             />
           )}
+          {img.video && <CapaVideo src={img.video} ajuste="object-contain" />}
         </div>
         <Flecha lado="der" onClick={() => onMover(1)} />
       </div>
@@ -244,14 +278,19 @@ export default function ModulosCaso({ modulos }: { modulos: Modulo[] }) {
 
           /* ── 2 · Imagen a ancho completo ── */
           if (m.tipo === "completa") {
-            const panoramico = m.alto === "panoramico";
+            const caja =
+              m.alto === "panoramico"
+                ? { proporcion: "12 / 5", etiqueta: "panorámica" }
+                : m.alto === "cuadro"
+                ? { proporcion: "4 / 3", etiqueta: "ancho completo · 4:3" }
+                : { proporcion: "16 / 9", etiqueta: "ancho completo" };
             const idx = siguiente();
             return (
               <figure key={i}>
                 <Recorte
                   imagen={m.imagen}
-                  proporcion={panoramico ? "12 / 5" : "16 / 9"}
-                  etiqueta={panoramico ? "panorámica" : "ancho completo"}
+                  proporcion={caja.proporcion}
+                  etiqueta={caja.etiqueta}
                   onAbrir={() => setAbierta(idx)}
                 />
                 {m.imagen.pie && <Pie>{m.imagen.pie}</Pie>}

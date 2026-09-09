@@ -56,6 +56,10 @@ export type Imagen = {
   pie?: string;
   /** Ruta del archivo. Sin ella se dibuja el marcador dimensionado. */
   src?: string;
+  /** Animación opcional (MP4 mudo) que se reproduce sobre `src`.
+      Los GIF de marca se convierten a MP4: mismo movimiento, una
+      décima parte del peso, y `src` queda de póster. */
+  video?: string;
 };
 
 /* ── Módulos del cuerpo del caso de estudio ──
@@ -66,7 +70,7 @@ export type Modulo =
   /* Dos imágenes recortadas a cuadrada, una al lado de la otra */
   | { tipo: "cuadricula"; imagenes: [Imagen, Imagen] }
   /* Una sola imagen que cubre el ancho de las dos anteriores */
-  | { tipo: "completa"; imagen: Imagen; alto?: "normal" | "panoramico" }
+  | { tipo: "completa"; imagen: Imagen; alto?: "normal" | "panoramico" | "cuadro" }
   /* Bloque de texto: título grande a la izquierda, párrafos a la
      derecha. Opcionalmente con una imagen al costado. */
   | { tipo: "texto"; titulo: string; parrafos: string[]; imagen?: Imagen };
@@ -98,6 +102,9 @@ export type Pieza = {
   portada?: string;
   tarjeta?: string;
   tarjetaHover?: string;
+  /** Animación de hover para piezas sin video propio (MP4 mudo).
+      Si existe, manda sobre `tarjetaHover`, que queda de póster. */
+  tarjetaHoverVideo?: string;
   campana?: string;
   rubro: Rubro;
   formato: Formato;
@@ -396,27 +403,31 @@ export const PIEZAS: Pieza[] = [
   },
 
   /* ═══════════════════════════════════════════════════════════════
-     MARCA · Don Neto — composición MIXTA
-     Alterna cuadrículas, imagen completa y bloques de texto. Es el
-     caso "robusto", para proyectos con mucho que contar.
+     MARCA · Don Neto — MATERIAL REAL
+     Primer cliente montado con sus archivos definitivos. Alterna
+     cuadrículas y cajas a lo ancho, y estrena la capa animada: los
+     GIF del manual convertidos a MP4, tanto en el hover de la
+     tarjeta como dentro del caso. Faltan los textos.
      ═══════════════════════════════════════════════════════════════ */
   {
     slug: "don-neto-identidad",
     titulo: "Identidad Don Neto",
     cliente: "Don Neto",
-    clienteId: "07_DON-NETO",
-    categoria: "Destilados artesanales",
+    clienteId: "02_DONNETO",
+    categoria: "Panadería tradicional",
+    logo: "/trabajo/don-neto-identidad/logo.svg",
+    portada: "/trabajo/don-neto-identidad/portada.jpg",
+    tarjeta: "/trabajo/don-neto-identidad/tarjeta.jpg",
+    /* Los stickers del sistema, animados. Era un GIF de 1.4 MB a
+       2800 px; como MP4 a 1400 px pesa 102 KB. */
+    tarjetaHoverVideo: "/trabajo/don-neto-identidad/tarjeta-hover.mp4",
     rubro: "marca",
     formato: "estatico",
-    anio: 2025,
-    resumen: "Un destilado con historia de familia que se veía como cualquier otro en el anaquel.",
-    contexto: {
-      titulo: "Que se lea a tres metros",
-      parrafos: [
-        "Don Neto llegó con un producto bueno y una etiqueta que no lo defendía. En el anaquel competía contra marcas con presupuesto de agencia grande y perdía antes de que alguien alcanzara a leer el nombre.",
-        "El sistema completo se construyó alrededor de una sola restricción: que la marca funcione a tres metros de distancia, que es donde se decide una compra de anaquel. Todo lo demás —paleta, retícula, jerarquía— salió de ahí.",
-      ],
-    },
+    anio: 2024,
+    /* TEXTOS PENDIENTES — lo que sigue solo describe el material que
+       ya está montado. El relato del proyecto lo escribe Elihu. */
+    resumen:
+      "Sistema de identidad completo para una panadería tradicional: logotipo, mascota, paleta, patrón, empaque y uniformes.",
     descripcion: [],
     servicios: ["identidad-completa"],
     metricas: [],
@@ -424,51 +435,54 @@ export const PIEZAS: Pieza[] = [
       {
         tipo: "cuadricula",
         imagenes: [
-          { w: 2400, h: 2400, pie: "Logotipo principal" },
-          { w: 2000, h: 2500, pie: "Versión reducida para tapa" },
+          { w: 1999, h: 2000, src: "/trabajo/don-neto-identidad/galeria/01-logotipos.png", pie: "Logotipo y sus reducciones" },
+          { w: 2000, h: 2000, src: "/trabajo/don-neto-identidad/galeria/02-colores.png", pie: "Paleta con equivalencias Pantone y CMYK" },
         ],
       },
       {
-        tipo: "texto",
-        titulo: "Dirección de arte de la etiqueta",
-        parrafos: [
-          "La etiqueta anterior usaba seis tintas y un degradado que encarecía cada tiraje y se ensuciaba al imprimirse sobre papel de caña. Bajamos el sistema a dos tintas planas, lo que abarató la producción y de paso volvió la marca más reconocible.",
-          "La tipografía condensada de peso alto resuelve el problema de la distancia: el nombre ocupa el ancho completo de la etiqueta sin invadir el espacio del sello de origen.",
+        /* La caja 4:3 respeta el cuadro original de la animación */
+        tipo: "completa",
+        alto: "cuadro",
+        imagen: {
+          w: 2800,
+          h: 2104,
+          src: "/trabajo/don-neto-identidad/galeria/10-bolsa.jpg",
+          video: "/trabajo/don-neto-identidad/galeria/10-bolsa.mp4",
+          pie: "Bolsa de tela — aplicación animada",
+        },
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 988, h: 928, src: "/trabajo/don-neto-identidad/galeria/03-graficos.jpg", pie: "Repertorio gráfico de panes" },
+          { w: 1151, h: 1081, src: "/trabajo/don-neto-identidad/galeria/04-patron.jpg", pie: "Patrón para empaque" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 700, h: 955, src: "/trabajo/don-neto-identidad/galeria/05-mandil.jpg", pie: "Mandil de mostrador" },
+          { w: 1500, h: 1250, src: "/trabajo/don-neto-identidad/galeria/06-playera.jpg", pie: "Playera de equipo" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1503, h: 1679, src: "/trabajo/don-neto-identidad/galeria/09-papeleria.jpg", pie: "Papelería" },
+          { w: 1368, h: 1172, src: "/trabajo/don-neto-identidad/galeria/07-vasos.jpg", pie: "Vasos para llevar" },
         ],
       },
       {
         tipo: "completa",
-        alto: "panoramico",
-        imagen: { w: 4200, h: 1750, pie: "La familia completa en anaquel" },
-      },
-      {
-        tipo: "cuadricula",
-        imagenes: [
-          { w: 3000, h: 2000, pie: "Papelería" },
-          { w: 2000, h: 3000, pie: "Aplicación en caja de traslado" },
-        ],
-      },
-      {
-        tipo: "texto",
-        titulo: "Construcción del sello",
-        parrafos: [
-          "El sello de origen se dibujó desde la marca de fierro que la familia usa en el rancho desde los años sesenta. No se estilizó de más: conserva la irregularidad del trazo original, que es lo que lo hace suyo y no de un banco de íconos.",
-        ],
-        imagen: { w: 2200, h: 2200, pie: "El fierro original y su versión digital" },
-      },
-      {
-        tipo: "cuadricula",
-        imagenes: [
-          { w: 3200, h: 2133, pie: "Manual de marca" },
-          { w: 2400, h: 2400, pie: "Plantillas de redes" },
-        ],
+        alto: "cuadro",
+        imagen: { w: 1400, h: 960, src: "/trabajo/don-neto-identidad/galeria/08-pan.jpg", pie: "Papel de empaque en uso" },
       },
     ],
     destacado: true,
     orden: 7,
     media: { tipo: "ninguno" },
     galeria: 0,
-    demo: true,
+    demo: false,
   },
 
   /* ═══════════════════════════════════════════════════════════════

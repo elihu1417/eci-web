@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Placeholder from "./Placeholder";
@@ -55,17 +55,35 @@ function Tarjeta({ p }: { p: Pieza }) {
   const alEntrar = () => {
     setHover(true);
     setTocada(true);
-    const v = video.current;
-    if (v) {
-      v.currentTime = 0;
-      v.play().catch(() => {});
-    }
-  };
-  const alSalir = () => {
-    setHover(false);
-    video.current?.pause();
   };
 
+  /* En el primer hover el <video> todavía no tiene src: se le pone al
+     re-renderizar. Y con preload="none" el archivo no se pide hasta
+     que alguien llame a play(), así que arrancarlo desde el manejador
+     del ratón no sirve —no habría nada que reproducir—. Se hace aquí,
+     ya con el src puesto. Detrás sigue la imagen base, no un hueco. */
+  useEffect(() => {
+    const v = video.current;
+    if (!v || !v.getAttribute("src")) return;
+    if (hover) {
+      v.currentTime = 0;
+      v.play().catch(() => {});
+    } else {
+      v.pause();
+    }
+  }, [hover, tocada]);
+  const alSalir = () => setHover(false);
+
+  /* Qué se enseña al pasar el cursor, en orden de prioridad:
+       1. el video de la propia pieza (reels y comerciales),
+       2. una animación de marca en MP4 (los GIF convertidos),
+       3. una segunda imagen.
+     Los dos primeros comparten el mismo <video>, así que la lógica de
+     reproducción no se duplica. */
+  const fuenteVideo =
+    p.media.tipo === "local"
+      ? (p.media as { src: string }).src
+      : p.tarjetaHoverVideo;
   const esVideoLocal = p.media.tipo === "local";
 
   return (
@@ -95,10 +113,10 @@ function Tarjeta({ p }: { p: Pieza }) {
         {/* Segundo recurso: aparece al pasar el cursor.
             En las piezas de video es el preview mudo; en las estáticas
             es la segunda imagen, del mismo tamaño que la base. */}
-        {esVideoLocal ? (
+        {fuenteVideo ? (
           <video
             ref={video}
-            src={urlMedia((p.media as { src: string }).src)}
+            src={tocada ? urlMedia(fuenteVideo) : undefined}
             muted
             loop
             playsInline
@@ -132,8 +150,13 @@ function Tarjeta({ p }: { p: Pieza }) {
           </div>
         )}
 
-        {/* Degradado de lectura */}
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[var(--color-profundo)] via-[color-mix(in_srgb,#111827_55%,transparent)] to-transparent" />
+        {/* Degradado de lectura.
+
+           Va más alto y más opaco de lo que pediría una portada oscura,
+           porque los casos de marca llegan sobre fondos claros —crema,
+           blanco— y ahí un velo suave deja el nombre del cliente casi
+           ilegible. Sobre material oscuro no se nota la diferencia. */}
+        <div className="absolute inset-x-0 bottom-0 h-[62%] bg-gradient-to-t from-[var(--color-profundo)] via-[color-mix(in_srgb,#111827_78%,transparent)] to-transparent" />
 
         {/* Etiqueta de medidas — para juzgar tamaños de un vistazo */}
         <span className="absolute top-3 left-3 rounded-full bg-[color-mix(in_srgb,var(--color-profundo)_75%,transparent)] px-2.5 py-1 text-[10px] tracking-wider text-[var(--color-menta)] backdrop-blur-sm">
