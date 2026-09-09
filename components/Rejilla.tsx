@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Grafico from "./Grafico";
 import Placeholder from "./Placeholder";
 import { visibles, rubrosActivos, MEDIDAS, iniciales, type Pieza, type Rubro } from "@/lib/content";
 import { urlMedia } from "@/lib/media";
@@ -31,7 +31,19 @@ function CajaLogo({ pieza, tam = 34 }: { pieza: Pieza; tam?: number }) {
       style={{ width: tam, height: tam }}
     >
       {pieza.logo ? (
-        <img src={pieza.logo} alt="" className="h-[62%] w-[62%] object-contain" />
+        /* Las reducciones nuevas traen su propio fondo de color y
+           llenan la caja; las que vienen sobre transparente se
+           dejan con aire alrededor. */
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={pieza.logo}
+          alt=""
+          className={
+            pieza.logoLleno
+              ? "h-full w-full object-cover"
+              : "h-[62%] w-[62%] object-contain"
+          }
+        />
       ) : (
         <span
           className="display text-[var(--color-crema)] leading-none"
@@ -99,13 +111,7 @@ function Tarjeta({ p }: { p: Pieza }) {
       >
         {/* Recurso base */}
         {p.tarjeta ? (
-          <Image
-            src={urlMedia(p.tarjeta)}
-            alt=""
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-            className="object-cover"
-          />
+          <Grafico src={p.tarjeta} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw" />
         ) : (
           <Placeholder formato={p.formato} etiqueta="recurso base" variante={1} />
         )}
@@ -135,15 +141,7 @@ function Tarjeta({ p }: { p: Pieza }) {
               /* Solo se descarga cuando el cursor entra por primera vez.
                  Antes se bajaban las dos imágenes de cada tarjeta aunque
                  nadie pasara por encima: el doble de peso en la rejilla. */
-              tocada && (
-                <Image
-                  src={urlMedia(p.tarjetaHover)}
-                  alt=""
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                  className="object-cover"
-                />
-              )
+              tocada && <Grafico src={p.tarjetaHover} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw" />
             ) : (
               <Placeholder formato={p.formato} etiqueta="segundo recurso" variante={2} esHover />
             )}

@@ -98,6 +98,9 @@ export type Pieza = {
   /* Logo reducido del cliente para el recuadro de la tarjeta.
      Si no hay archivo, se dibuja un monograma con sus iniciales. */
   logo?: string;
+  /* El logo trae su propio fondo de color y llena la caja. Las
+     reducciones sobre transparente se dejan con aire alrededor. */
+  logoLleno?: boolean;
   /* Imágenes de la pieza. Donde falte una, se dibuja el marcador. */
   portada?: string;
   tarjeta?: string;
@@ -124,6 +127,16 @@ export type Pieza = {
   media: Media;
   galeria: number;
   demo: boolean;
+};
+
+/* Logotipos para la franja de "marcas con las que hemos trabajado".
+
+   Van aparte de la pieza porque esa franja lista CLIENTES, no
+   trabajos: un cliente con tres proyectos aparece una sola vez, y no
+   tendría sentido repetir el mismo archivo en cada ficha. Donde no
+   hay logo se sigue escribiendo el nombre, que es como estaba. */
+export const LOGOS_CLIENTE: Record<string, string> = {
+  "Don Neto": "/clientes/don-neto.svg",
 };
 
 export const RUBROS: { id: Rubro; nombre: string; corto: string }[] = [
@@ -415,12 +428,13 @@ export const PIEZAS: Pieza[] = [
     cliente: "Don Neto",
     clienteId: "02_DONNETO",
     categoria: "Panadería tradicional",
+    /* La reducción nueva ya trae su fondo crema: llena la caja */
     logo: "/trabajo/don-neto-identidad/logo.svg",
+    logoLleno: true,
     portada: "/trabajo/don-neto-identidad/portada.jpg",
-    tarjeta: "/trabajo/don-neto-identidad/tarjeta.jpg",
-    /* Los stickers del sistema, animados. Era un GIF de 1.4 MB a
-       2800 px; como MP4 a 1400 px pesa 102 KB. */
-    tarjetaHoverVideo: "/trabajo/don-neto-identidad/tarjeta-hover.mp4",
+    /* La tarjeta es vector: 3 KB y nítida a cualquier tamaño */
+    tarjeta: "/trabajo/don-neto-identidad/tarjeta.svg",
+    tarjetaHover: "/trabajo/don-neto-identidad/tarjeta-hover.jpg",
     rubro: "marca",
     formato: "estatico",
     anio: 2024,
@@ -431,51 +445,107 @@ export const PIEZAS: Pieza[] = [
     descripcion: [],
     servicios: ["identidad-completa"],
     metricas: [],
+    /* El caso va en tres tiempos: el sistema, sus aplicaciones y el
+       oficio que lo sostiene. Las fotos de panadería cierran el caso
+       en vez de abrir un rubro de fotografía aparte: aquí no son un
+       trabajo distinto, son el contexto de la marca. */
     modulos: [
       {
         tipo: "cuadricula",
         imagenes: [
-          { w: 1999, h: 2000, src: "/trabajo/don-neto-identidad/galeria/01-logotipos.png", pie: "Logotipo y sus reducciones" },
-          { w: 2000, h: 2000, src: "/trabajo/don-neto-identidad/galeria/02-colores.png", pie: "Paleta con equivalencias Pantone y CMYK" },
+          {
+            w: 900,
+            h: 900,
+            src: "/trabajo/don-neto-identidad/galeria/01-logo-animado.jpg",
+            video: "/trabajo/don-neto-identidad/galeria/01-logo-animado.mp4",
+            pie: "El logotipo construyéndose",
+          },
+          { w: 1999, h: 2000, src: "/trabajo/don-neto-identidad/galeria/02-reducciones.png", pie: "Logotipo y sus reducciones" },
         ],
       },
       {
-        /* La caja 4:3 respeta el cuadro original de la animación */
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 2000, h: 2000, src: "/trabajo/don-neto-identidad/galeria/03-colores.png", pie: "Paleta con equivalencias Pantone y CMYK" },
+          { w: 988, h: 928, src: "/trabajo/don-neto-identidad/galeria/04-graficos.jpg", pie: "Repertorio gráfico de panes" },
+        ],
+      },
+      {
         tipo: "completa",
         alto: "cuadro",
         imagen: {
-          w: 2800,
-          h: 2104,
-          src: "/trabajo/don-neto-identidad/galeria/10-bolsa.jpg",
-          video: "/trabajo/don-neto-identidad/galeria/10-bolsa.mp4",
-          pie: "Bolsa de tela — aplicación animada",
+          w: 1600,
+          h: 1202,
+          src: "/trabajo/don-neto-identidad/galeria/05-bolsa.jpg",
+          video: "/trabajo/don-neto-identidad/galeria/05-bolsa.mp4",
+          pie: "Bolsa de tela",
         },
       },
       {
         tipo: "cuadricula",
         imagenes: [
-          { w: 988, h: 928, src: "/trabajo/don-neto-identidad/galeria/03-graficos.jpg", pie: "Repertorio gráfico de panes" },
-          { w: 1151, h: 1081, src: "/trabajo/don-neto-identidad/galeria/04-patron.jpg", pie: "Patrón para empaque" },
+          { w: 1151, h: 1081, src: "/trabajo/don-neto-identidad/galeria/06-patron.jpg", pie: "Patrón para empaque" },
+          { w: 1503, h: 1679, src: "/trabajo/don-neto-identidad/galeria/07-papeleria.jpg", pie: "Papelería" },
         ],
       },
       {
         tipo: "cuadricula",
         imagenes: [
-          { w: 700, h: 955, src: "/trabajo/don-neto-identidad/galeria/05-mandil.jpg", pie: "Mandil de mostrador" },
-          { w: 1500, h: 1250, src: "/trabajo/don-neto-identidad/galeria/06-playera.jpg", pie: "Playera de equipo" },
-        ],
-      },
-      {
-        tipo: "cuadricula",
-        imagenes: [
-          { w: 1503, h: 1679, src: "/trabajo/don-neto-identidad/galeria/09-papeleria.jpg", pie: "Papelería" },
-          { w: 1368, h: 1172, src: "/trabajo/don-neto-identidad/galeria/07-vasos.jpg", pie: "Vasos para llevar" },
+          { w: 700, h: 955, src: "/trabajo/don-neto-identidad/galeria/08-mandil.jpg", pie: "Mandil de mostrador" },
+          { w: 1500, h: 1250, src: "/trabajo/don-neto-identidad/galeria/09-playera.jpg", pie: "Playera de equipo" },
         ],
       },
       {
         tipo: "completa",
         alto: "cuadro",
-        imagen: { w: 1400, h: 960, src: "/trabajo/don-neto-identidad/galeria/08-pan.jpg", pie: "Papel de empaque en uso" },
+        imagen: {
+          w: 1400,
+          h: 1052,
+          src: "/trabajo/don-neto-identidad/galeria/10-stickers.jpg",
+          video: "/trabajo/don-neto-identidad/galeria/10-stickers.mp4",
+          pie: "Stickers del sistema",
+        },
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1368, h: 1172, src: "/trabajo/don-neto-identidad/galeria/11-vasos.jpg", pie: "Vasos para llevar" },
+          { w: 1400, h: 960, src: "/trabajo/don-neto-identidad/galeria/12-pan.jpg", pie: "Papel de empaque en uso" },
+        ],
+      },
+
+      /* ── El oficio ── */
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/13-foto-charolas.jpg", pie: "Charolas antes del horno" },
+          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/14-foto-conchas.jpg", pie: "Conchas de la casa" },
+        ],
+      },
+      {
+        tipo: "completa",
+        imagen: { w: 1600, h: 1066, src: "/trabajo/don-neto-identidad/galeria/15-foto-horno.jpg", pie: "El horno encendido" },
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/16-foto-bolillos.jpg", pie: "Bolillo recién salido" },
+          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/17-foto-reposo.jpg", pie: "Reposo antes del horno" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/18-foto-vitrina.jpg", pie: "Vitrina de la mañana" },
+          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/19-foto-baguettes.jpg", pie: "Baguettes del día" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/20-foto-roles.jpg", pie: "Roles de canela" },
+          { w: 1600, h: 1066, src: "/trabajo/don-neto-identidad/galeria/21-foto-harina.jpg", pie: "Harina y masa en la mesa" },
+        ],
       },
     ],
     destacado: true,

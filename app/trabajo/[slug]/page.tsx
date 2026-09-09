@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import Grafico from "@/components/Grafico";
 import { notFound } from "next/navigation";
 import Placeholder from "@/components/Placeholder";
 import ModulosCaso from "@/components/ModulosCaso";
@@ -31,7 +31,16 @@ function CajaLogo({ pieza, tam = 44 }: { pieza: Pieza; tam?: number }) {
       style={{ width: tam, height: tam }}
     >
       {pieza.logo ? (
-        <img src={pieza.logo} alt="" className="h-[62%] w-[62%] object-contain" />
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={pieza.logo}
+          alt=""
+          className={
+            pieza.logoLleno
+              ? "h-full w-full object-cover"
+              : "h-[62%] w-[62%] object-contain"
+          }
+        />
       ) : (
         <span
           className="display text-[var(--color-crema)] leading-none"
@@ -100,13 +109,10 @@ export default async function Caso({
             style={{ aspectRatio: "16 / 9" }}
           >
             {p.portada ? (
-              <Image
-                src={urlMedia(p.portada)}
-                alt=""
-                fill
+              <Grafico
+                src={p.portada}
                 sizes="(max-width: 1100px) 100vw, 1100px"
                 priority
-                className="object-cover"
               />
             ) : (
               <Placeholder formato="horizontal" etiqueta="portada del caso" />

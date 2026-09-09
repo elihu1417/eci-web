@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Image from "next/image";
+import Grafico from "./Grafico";
 import Placeholder from "./Placeholder";
 import { imagenesDe, type Imagen, type Modulo } from "@/lib/content";
 import { urlMedia } from "@/lib/media";
@@ -85,10 +85,9 @@ function Recorte({
       aria-label={`Abrir ${imagen.pie ?? "imagen"} en tamaño original`}
     >
       {imagen.src ? (
-        <Image
-          src={urlMedia(imagen.src)}
+        <Grafico
+          src={imagen.src}
           alt={imagen.pie ?? ""}
-          fill
           sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 520px"
           className="object-cover transition-transform duration-700 group-hover/img:scale-[1.03]"
         />
@@ -188,10 +187,9 @@ function Visor({
           }}
         >
           {img.src ? (
-            <Image
-              src={urlMedia(img.src)}
+            <Grafico
+              src={img.src}
               alt={img.pie ?? ""}
-              fill
               sizes="100vw"
               priority
               className="object-contain"

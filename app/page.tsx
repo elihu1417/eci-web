@@ -2,7 +2,7 @@ import Link from "next/link";
 import Placeholder from "@/components/Placeholder";
 import HeroReel from "@/components/HeroReel";
 import { SITIO, SERVICIOS } from "@/lib/sitio";
-import { visibles } from "@/lib/content";
+import { LOGOS_CLIENTE, visibles } from "@/lib/content";
 import { urlMedia } from "@/lib/media";
 
 const PILARES = [
@@ -134,12 +134,30 @@ export default function Home() {
         <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-texto-tenue)]">
           Marcas con las que hemos trabajado
         </p>
-        <div className="mt-6 flex flex-wrap gap-x-10 gap-y-4">
-          {clientes.map((c) => (
-            <span key={c} className="display-suave text-lg md:text-xl text-[color-mix(in_srgb,#eeebe3_45%,transparent)]">
-              {c}
-            </span>
-          ))}
+        {/* Donde el cliente ya entregó su logotipo se pone el logo; el
+            resto sigue en texto. Los dos van al mismo tono apagado y
+            se encienden al pasar el cursor, para que la franja se lea
+            como una sola lista y no como una mezcla. */}
+        <div className="mt-6 flex flex-wrap items-center gap-x-10 gap-y-6">
+          {clientes.map((c) => {
+            const logo = LOGOS_CLIENTE[c];
+            return logo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={c}
+                src={logo}
+                alt={c}
+                className="h-7 w-auto opacity-45 transition-opacity duration-300 hover:opacity-100 md:h-8"
+              />
+            ) : (
+              <span
+                key={c}
+                className="display-suave text-lg md:text-xl text-[color-mix(in_srgb,#eeebe3_45%,transparent)] transition-colors hover:text-[var(--color-crema)]"
+              >
+                {c}
+              </span>
+            );
+          })}
         </div>
       </section>
 
