@@ -4,6 +4,7 @@ import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Placeholder from "./Placeholder";
 import { visibles, rubrosActivos, MEDIDAS, iniciales, type Pieza, type Rubro } from "@/lib/content";
+import { urlMedia } from "@/lib/media";
 
 /* Rejilla asimétrica tipo bento.
 
@@ -82,7 +83,7 @@ function Tarjeta({ p }: { p: Pieza }) {
         {esVideoLocal ? (
           <video
             ref={video}
-            src={(p.media as { src: string }).src}
+            src={urlMedia((p.media as { src: string }).src)}
             muted
             loop
             playsInline

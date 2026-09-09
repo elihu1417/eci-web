@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Placeholder from "./Placeholder";
 import { reels, type Pieza } from "@/lib/content";
+import { urlMedia } from "@/lib/media";
 
 /* Feed vertical 9:16.
 
@@ -125,7 +126,7 @@ export default function FeedReels({ inicial }: { inicial?: string }) {
                 {montado && p.media.tipo === "local" && !fallidos[i] && (
                   <video
                     ref={(el) => { videos.current[i] = el; }}
-                    src={p.media.src}
+                    src={urlMedia(p.media.src)}
                     loop
                     muted={!sonido || i !== activo}
                     playsInline

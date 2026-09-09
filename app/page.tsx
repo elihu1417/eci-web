@@ -2,6 +2,7 @@ import Link from "next/link";
 import Placeholder from "@/components/Placeholder";
 import { SITIO, SERVICIOS } from "@/lib/sitio";
 import { visibles } from "@/lib/content";
+import { urlMedia } from "@/lib/media";
 
 const PILARES = [
   { id: "reels", titulo: "Contenido vertical", texto: "El motor de volumen. Una jornada de grabación, ocho a diez piezas.", formato: "vertical" as const, href: "/reels" },
@@ -70,7 +71,7 @@ export default function Home() {
                     <Placeholder formato="vertical" etiqueta="reel de marca" />
                   </div>
                   <video
-                    src={heroPieza.media.src}
+                    src={urlMedia(heroPieza.media.src)}
                     autoPlay
                     muted
                     loop
