@@ -242,7 +242,7 @@ export const PIEZAS: Pieza[] = [
     metricas: [{ valor: "3 usos", etiqueta: "en un solo espacio" }],
     destacado: false,
     orden: 5,
-    media: { tipo: "local", src: "/01_REELS/2026-Bricka-Casa.Salon.Evento.mp4", pesoMB: 20.1 },
+    media: { tipo: "local", src: "/01_REELS/PENDIENTE-bricka-casa-salon-eventos.mp4", pesoMB: 20.1 },
     galeria: 0,
     demo: true,
   },
