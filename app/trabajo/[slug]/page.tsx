@@ -3,6 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import Placeholder from "@/components/Placeholder";
 import ModulosCaso from "@/components/ModulosCaso";
+import Colaboradores from "@/components/Colaboradores";
 import ReproductorYouTube from "@/components/ReproductorYouTube";
 import {
   RUBROS,
@@ -174,6 +175,11 @@ export default async function Caso({
             ))}
           </div>
         </section>
+      )}
+
+      {/* ── Créditos ── */}
+      {p.colaboradores && p.colaboradores.length > 0 && (
+        <Colaboradores lista={p.colaboradores} />
       )}
 
       {/* ── Otras piezas del mismo cliente ── */}

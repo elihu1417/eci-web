@@ -28,3 +28,6 @@ desktop.ini
 # un visitante que recorre el feed completo descarga ~128 MB.
 # ────────────────────────────────────────────────────────────────
 public/demo/reels/*.mp4
+
+# Artefacto de tsc
+tsconfig.tsbuildinfo

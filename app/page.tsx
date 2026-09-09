@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Placeholder from "@/components/Placeholder";
-import VideoDiferido from "@/components/VideoDiferido";
+import HeroReel from "@/components/HeroReel";
 import { SITIO, SERVICIOS } from "@/lib/sitio";
 import { visibles } from "@/lib/content";
 import { urlMedia } from "@/lib/media";
@@ -15,19 +15,29 @@ export default function Home() {
   const publicables = visibles();
   const destacados = publicables.filter((p) => p.destacado).slice(0, 4);
   const clientes = [...new Set(publicables.map((p) => p.cliente))];
-  // El reel del hero: el más ligero de los verticales, para no castigar
-  // la primera carga con un archivo de 45 MB.
-  const heroPieza = publicables
-    .filter((p) => p.media.tipo === "local")
-    .sort((a, b) => (a.media as { pesoMB: number }).pesoMB - (b.media as { pesoMB: number }).pesoMB)[0];
+  // El hero rota entre varios reels, cinco segundos cada uno. Se
+  // ordenan del más ligero al más pesado: los primeros son los que
+  // alcanza a ver quien solo pasa por la home.
+  const heroClips = publicables
+    .filter((p) => p.formato === "vertical" && p.media.tipo === "local")
+    .map((p) => ({ p, m: p.media as { src: string; pesoMB: number } }))
+    .sort((a, b) => a.m.pesoMB - b.m.pesoMB)
+    .slice(0, 6)
+    .map(({ p, m }) => ({
+      slug: p.slug,
+      cliente: p.cliente,
+      titulo: p.titulo,
+      src: urlMedia(m.src),
+    }));
 
   return (
     <>
       {/* ── Hero ──
           El planteamiento (documento maestro, 6.1) pide video de marca
-          en el hero. Todavía no existe esa pieza, así que aquí corre un
-          reel real, silenciado y en bucle: ocupa el sitio que le toca y
-          de paso enseña trabajo antes del primer scroll. */}
+          en el hero. Todavía no existe esa pieza, así que el hueco lo
+          llena una rotación de reels reales, cinco segundos cada uno:
+          ocupa el sitio que le toca y enseña seis trabajos distintos
+          antes del primer scroll. */}
       <section className="relative overflow-hidden aura">
         <div className="relative z-10 mx-auto max-w-[1400px] px-6 lg:px-10 pt-20 pb-16 md:pt-28 md:pb-24">
           <div className="grid items-center gap-12 lg:grid-cols-[1.08fr_0.92fr]">
@@ -57,39 +67,7 @@ export default function Home() {
               </div>
             </div>
 
-            {heroPieza && heroPieza.media.tipo === "local" && (
-              <Link
-                href={`/reels/${heroPieza.slug}`}
-                className="group relative mx-auto w-full max-w-[340px] lg:max-w-none"
-              >
-                <div
-                  className="relative overflow-hidden rounded-2xl border border-[var(--color-borde)] bg-black shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)]"
-                  style={{ aspectRatio: "9 / 16" }}
-                >
-                  {/* Marcador detrás: si el master no está disponible,
-                      el hueco no se ve negro sino encuadrado. */}
-                  <div className="absolute inset-0">
-                    <Placeholder formato="vertical" etiqueta="reel de marca" />
-                  </div>
-                  <VideoDiferido
-                    src={urlMedia(heroPieza.media.src)}
-                    className="h-full w-full object-cover"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/80 to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-5">
-                    <p className="text-[10px] uppercase tracking-[0.18em] text-[var(--color-menta)]">
-                      {heroPieza.cliente}
-                    </p>
-                    <p className="display-suave text-lg text-[var(--color-crema)]">
-                      {heroPieza.titulo}
-                    </p>
-                  </div>
-                  <span className="absolute right-4 top-4 rounded-full bg-[color-mix(in_srgb,#111827_70%,transparent)] px-3 py-1.5 text-[10px] text-[var(--color-crema)] backdrop-blur-sm opacity-0 transition-opacity group-hover:opacity-100">
-                    Ver el feed →
-                  </span>
-                </div>
-              </Link>
-            )}
+            {heroClips.length > 0 && <HeroReel clips={heroClips} />}
           </div>
         </div>
       </section>

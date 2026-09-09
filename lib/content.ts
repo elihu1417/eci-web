@@ -29,6 +29,16 @@ export type Formato = "vertical" | "horizontal" | "estatico";
 
 export type Metrica = { valor: string; etiqueta: string };
 
+/* Quién trabajó en la pieza. Va al final del caso de estudio.
+   El enlace es opcional: no todos tienen o quieren redes públicas. */
+export type Colaborador = {
+  nombre: string;
+  rol: string;
+  url?: string;
+  /* Cómo se muestra el enlace. Si se omite se deduce del dominio. */
+  red?: string;
+};
+
 export type Media =
   | { tipo: "local"; src: string; pesoMB: number }
   | { tipo: "youtube"; id: string }
@@ -99,6 +109,8 @@ export type Pieza = {
   descripcion: string[];
   servicios: string[];
   metricas: Metrica[];
+  /* Créditos de la pieza, al cierre del caso */
+  colaboradores?: Colaborador[];
   modulos?: Modulo[];
   destacado: boolean;
   orden: number;
@@ -369,6 +381,13 @@ export const PIEZAS: Pieza[] = [
     descripcion: [],
     servicios: ["audiovisual-comercial"],
     metricas: [],
+    /* CRÉDITOS DE EJEMPLO — sustituir por el equipo real */
+    colaboradores: [
+      { nombre: "Elihu Arrieta", rol: "Dirección", url: "https://instagram.com/eci.estudio" },
+      { nombre: "Nombre por definir", rol: "Cámara" },
+      { nombre: "Nombre por definir", rol: "Edición y color", url: "https://vimeo.com/" },
+      { nombre: "Nombre por definir", rol: "Diseño sonoro" },
+    ],
     destacado: true,
     orden: 6,
     media: { tipo: "youtube", id: "9O3Rb37micI" },
@@ -584,6 +603,13 @@ export const PIEZAS: Pieza[] = [
     descripcion: [],
     servicios: ["fotografia"],
     metricas: [],
+    /* CRÉDITOS DE EJEMPLO — nombres y enlaces inventados, para ver el
+       diseño. Sustituir por el equipo real de la sesión. */
+    colaboradores: [
+      { nombre: "Elihu Arrieta", rol: "Dirección y fotografía", url: "https://instagram.com/eci.estudio" },
+      { nombre: "Nombre por definir", rol: "Asistencia de set" },
+      { nombre: "Nombre por definir", rol: "Retoque digital", url: "https://behance.net/" },
+    ],
     modulos: [
       {
         tipo: "cuadricula",
