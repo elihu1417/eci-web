@@ -119,6 +119,9 @@ export type Pieza = {
   descripcion: string[];
   servicios: string[];
   metricas: Metrica[];
+  /* Párrafo de cierre. Va al final del caso, junto a la llamada a
+     contacto: es lo último que se lee antes de decidir escribir. */
+  cierre?: string;
   /* Créditos de la pieza, al cierre del caso */
   colaboradores?: Colaborador[];
   modulos?: Modulo[];
@@ -427,47 +430,73 @@ export const PIEZAS: Pieza[] = [
     titulo: "Identidad Don Neto",
     cliente: "Don Neto",
     clienteId: "02_DONNETO",
-    categoria: "Panadería tradicional",
-    /* La reducción nueva ya trae su fondo crema: llena la caja */
+    categoria: "Repostería y panadería",
+    /* La reducción trae su propio fondo crema: llena la caja */
     logo: "/trabajo/don-neto-identidad/logo.svg",
     logoLleno: true,
     portada: "/trabajo/don-neto-identidad/portada.jpg",
     /* La tarjeta es vector: 3 KB y nítida a cualquier tamaño */
     tarjeta: "/trabajo/don-neto-identidad/tarjeta.svg",
+    /* La papelería, que también se repite dentro del caso */
     tarjetaHover: "/trabajo/don-neto-identidad/tarjeta-hover.jpg",
     rubro: "marca",
     formato: "estatico",
     anio: 2024,
-    /* TEXTOS PENDIENTES — lo que sigue solo describe el material que
-       ya está montado. El relato del proyecto lo escribe Elihu. */
     resumen:
-      "Sistema de identidad completo para una panadería tradicional: logotipo, mascota, paleta, patrón, empaque y uniformes.",
+      "Re-Branding para una panadería en la ciudad de Chihuahua, activa desde 1987.",
+    contexto: {
+      titulo: "Sobre el proyecto",
+      parrafos: [
+        "Este proyecto llegó con el reto principal de generar un cambio de identidad que renovara la marca, pero que a su vez siguiera manteniendo la esencia representativa de todos sus años de trayectoria.",
+        "Uno de los conceptos más importantes que descubrimos al escuchar a nuestro cliente fue el de “del ver nace el amor”. Por lo cual vimos que la identidad no solo debía representar esa tradición que mantienen desde muchos años atrás, sino también una limpieza y calidad que empate con los productos que hornean.",
+      ],
+    },
     descripcion: [],
     servicios: ["identidad-completa"],
     metricas: [],
-    /* El caso va en tres tiempos: el sistema, sus aplicaciones y el
-       oficio que lo sostiene. Las fotos de panadería cierran el caso
-       en vez de abrir un rubro de fotografía aparte: aquí no son un
-       trabajo distinto, son el contexto de la marca. */
+    /* El recorrido: se abre con dos aplicaciones y un producto para que
+       el primer texto no llegue solo, luego el sistema completo y al
+       final el oficio, que es lo que le da sentido a todo lo anterior. */
     modulos: [
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 700, h: 955, src: "/trabajo/don-neto-identidad/galeria/01-mandil.jpg", pie: "Mandil de mostrador" },
+          { w: 1500, h: 1250, src: "/trabajo/don-neto-identidad/galeria/02-playera.jpg", pie: "Playera de equipo" },
+        ],
+      },
+      {
+        tipo: "completa",
+        alto: "cuadro",
+        imagen: { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/03-foto-conchas.jpg", pie: "Conchas de la casa" },
+      },
+
+      {
+        tipo: "texto",
+        titulo: "Personalidad",
+        parrafos: [
+          "Si la marca fuera una persona definitivamente sería el sr. Gamboa, la persona que comenzó toda esta tradición. Es alguien cercano con sus clientes, que se empeña en hornear cada producto con calidad y lo hace a mano en su horno tradicional.",
+          "Todo esto fue la base para plantear qué mantener en el logo, qué era necesario cambiar y cómo hacerlo.",
+        ],
+      },
       {
         tipo: "cuadricula",
         imagenes: [
           {
             w: 900,
             h: 900,
-            src: "/trabajo/don-neto-identidad/galeria/01-logo-animado.jpg",
-            video: "/trabajo/don-neto-identidad/galeria/01-logo-animado.mp4",
+            src: "/trabajo/don-neto-identidad/galeria/04-logo-animado.jpg",
+            video: "/trabajo/don-neto-identidad/galeria/04-logo-animado.mp4",
             pie: "El logotipo construyéndose",
           },
-          { w: 1999, h: 2000, src: "/trabajo/don-neto-identidad/galeria/02-reducciones.png", pie: "Logotipo y sus reducciones" },
+          { w: 1999, h: 2000, src: "/trabajo/don-neto-identidad/galeria/05-reducciones.png", pie: "Logotipo y sus reducciones" },
         ],
       },
       {
         tipo: "cuadricula",
         imagenes: [
-          { w: 2000, h: 2000, src: "/trabajo/don-neto-identidad/galeria/03-colores.png", pie: "Paleta con equivalencias Pantone y CMYK" },
-          { w: 988, h: 928, src: "/trabajo/don-neto-identidad/galeria/04-graficos.jpg", pie: "Repertorio gráfico de panes" },
+          { w: 2000, h: 2000, src: "/trabajo/don-neto-identidad/galeria/06-colores.png", pie: "Paleta con equivalencias Pantone y CMYK" },
+          { w: 988, h: 928, src: "/trabajo/don-neto-identidad/galeria/07-graficos.jpg", pie: "Repertorio gráfico de panes" },
         ],
       },
       {
@@ -476,23 +505,16 @@ export const PIEZAS: Pieza[] = [
         imagen: {
           w: 1600,
           h: 1202,
-          src: "/trabajo/don-neto-identidad/galeria/05-bolsa.jpg",
-          video: "/trabajo/don-neto-identidad/galeria/05-bolsa.mp4",
+          src: "/trabajo/don-neto-identidad/galeria/08-bolsa.jpg",
+          video: "/trabajo/don-neto-identidad/galeria/08-bolsa.mp4",
           pie: "Bolsa de tela",
         },
       },
       {
         tipo: "cuadricula",
         imagenes: [
-          { w: 1151, h: 1081, src: "/trabajo/don-neto-identidad/galeria/06-patron.jpg", pie: "Patrón para empaque" },
-          { w: 1503, h: 1679, src: "/trabajo/don-neto-identidad/galeria/07-papeleria.jpg", pie: "Papelería" },
-        ],
-      },
-      {
-        tipo: "cuadricula",
-        imagenes: [
-          { w: 700, h: 955, src: "/trabajo/don-neto-identidad/galeria/08-mandil.jpg", pie: "Mandil de mostrador" },
-          { w: 1500, h: 1250, src: "/trabajo/don-neto-identidad/galeria/09-playera.jpg", pie: "Playera de equipo" },
+          { w: 1151, h: 1081, src: "/trabajo/don-neto-identidad/galeria/09-patron.jpg", pie: "Patrón para empaque" },
+          { w: 1503, h: 1679, src: "/trabajo/don-neto-identidad/galeria/10-papeleria.jpg", pie: "Papelería" },
         ],
       },
       {
@@ -501,53 +523,59 @@ export const PIEZAS: Pieza[] = [
         imagen: {
           w: 1400,
           h: 1052,
-          src: "/trabajo/don-neto-identidad/galeria/10-stickers.jpg",
-          video: "/trabajo/don-neto-identidad/galeria/10-stickers.mp4",
+          src: "/trabajo/don-neto-identidad/galeria/11-stickers.jpg",
+          video: "/trabajo/don-neto-identidad/galeria/11-stickers.mp4",
           pie: "Stickers del sistema",
         },
       },
       {
         tipo: "cuadricula",
         imagenes: [
-          { w: 1368, h: 1172, src: "/trabajo/don-neto-identidad/galeria/11-vasos.jpg", pie: "Vasos para llevar" },
-          { w: 1400, h: 960, src: "/trabajo/don-neto-identidad/galeria/12-pan.jpg", pie: "Papel de empaque en uso" },
+          { w: 1368, h: 1172, src: "/trabajo/don-neto-identidad/galeria/12-vasos.jpg", pie: "Vasos para llevar" },
+          { w: 1400, h: 960, src: "/trabajo/don-neto-identidad/galeria/13-pan.jpg", pie: "Papel de empaque en uso" },
         ],
       },
 
-      /* ── El oficio ── */
+      {
+        tipo: "texto",
+        titulo: "Dirección",
+        parrafos: [
+          "Lo primero fue decidir mantener la ilustración del panadero, ya que justo representa esa tradición y tiene un gran peso en el reconocimiento de la marca.",
+          "Lo que decidimos modificar fueron los colores y reducir el logo a lo más esencial, para que funcione en diferentes aplicaciones y reducciones. Además creamos sus letras totalmente a la medida.",
+        ],
+      },
       {
         tipo: "cuadricula",
         imagenes: [
-          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/13-foto-charolas.jpg", pie: "Charolas antes del horno" },
-          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/14-foto-conchas.jpg", pie: "Conchas de la casa" },
+          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/14-foto-masa.jpg", pie: "Masa en charola, antes del horno" },
+          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/15-foto-glaseado.jpg", pie: "Pan glaseado recién salido" },
         ],
       },
       {
         tipo: "completa",
-        imagen: { w: 1600, h: 1066, src: "/trabajo/don-neto-identidad/galeria/15-foto-horno.jpg", pie: "El horno encendido" },
+        imagen: { w: 1600, h: 1066, src: "/trabajo/don-neto-identidad/galeria/16-foto-horno.jpg", pie: "El horno tradicional, encendido" },
       },
       {
         tipo: "cuadricula",
         imagenes: [
-          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/16-foto-bolillos.jpg", pie: "Bolillo recién salido" },
-          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/17-foto-reposo.jpg", pie: "Reposo antes del horno" },
+          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/17-foto-reposo.jpg", pie: "Reposo en los anaqueles" },
+          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/18-foto-azucarado.jpg", pie: "Pan azucarado" },
         ],
       },
       {
         tipo: "cuadricula",
         imagenes: [
-          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/18-foto-vitrina.jpg", pie: "Vitrina de la mañana" },
           { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/19-foto-baguettes.jpg", pie: "Baguettes del día" },
+          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/20-foto-roles.jpg", pie: "Roles de canela" },
         ],
       },
       {
-        tipo: "cuadricula",
-        imagenes: [
-          { w: 1066, h: 1600, src: "/trabajo/don-neto-identidad/galeria/20-foto-roles.jpg", pie: "Roles de canela" },
-          { w: 1600, h: 1066, src: "/trabajo/don-neto-identidad/galeria/21-foto-harina.jpg", pie: "Harina y masa en la mesa" },
-        ],
+        tipo: "completa",
+        imagen: { w: 1600, h: 1066, src: "/trabajo/don-neto-identidad/galeria/21-foto-harina.jpg", pie: "Harina y masa, hecho a mano" },
       },
     ],
+    cierre:
+      "Este es un proyecto con alma y con mucha historia que tenía un gran potencial de ser contada. Trabajar y reestructurar la marca Don Neto fue un honor para ECI como estudio.",
     destacado: true,
     orden: 7,
     media: { tipo: "ninguno" },

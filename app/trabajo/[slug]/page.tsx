@@ -14,7 +14,7 @@ import {
   visibles,
   type Pieza,
 } from "@/lib/content";
-import { SERVICIOS } from "@/lib/sitio";
+import { SITIO, SERVICIOS } from "@/lib/sitio";
 import { urlMedia } from "@/lib/media";
 
 export function generateStaticParams() {
@@ -226,6 +226,31 @@ export default async function Caso({
           </div>
         </section>
       )}
+
+      {/* ── Cierre y llamada a contacto ──
+          Lo último que se lee. El caso ya convenció o no; aquí solo
+          queda decir cómo se empieza uno igual. */}
+      <section className="mt-20 rounded-2xl border border-[var(--color-borde)] bg-[var(--color-superficie)] px-6 py-12 md:px-12 md:py-16">
+        {p.cierre && (
+          <p className="display-suave max-w-[34ch] text-xl leading-snug text-[var(--color-crema)] md:text-2xl">
+            {p.cierre}
+          </p>
+        )}
+        <div className="mt-8 flex flex-wrap items-center gap-4">
+          <Link
+            href="/contacto"
+            className="rounded-full bg-[var(--color-menta)] px-6 py-3 text-sm font-medium text-[var(--color-profundo)] transition-colors hover:bg-[var(--color-crema)]"
+          >
+            Cuéntanos tu proyecto
+          </Link>
+          <a
+            href={`mailto:${SITIO.correo}`}
+            className="text-sm text-[var(--color-texto-tenue)] transition-colors hover:text-[var(--color-crema)]"
+          >
+            {SITIO.correo}
+          </a>
+        </div>
+      </section>
     </article>
   );
 }
