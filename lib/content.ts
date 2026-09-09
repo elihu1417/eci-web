@@ -44,6 +44,8 @@ export type Imagen = {
   w: number;
   h: number;
   pie?: string;
+  /** Ruta del archivo. Sin ella se dibuja el marcador dimensionado. */
+  src?: string;
 };
 
 /* ── Módulos del cuerpo del caso de estudio ──
@@ -82,6 +84,10 @@ export type Pieza = {
   /* Logo reducido del cliente para el recuadro de la tarjeta.
      Si no hay archivo, se dibuja un monograma con sus iniciales. */
   logo?: string;
+  /* Imágenes de la pieza. Donde falte una, se dibuja el marcador. */
+  portada?: string;
+  tarjeta?: string;
+  tarjetaHover?: string;
   campana?: string;
   rubro: Rubro;
   formato: Formato;
@@ -143,7 +149,7 @@ export const PIEZAS: Pieza[] = [
     ],
     destacado: true,
     orden: 1,
-    media: { tipo: "local", src: "/demo/reels/reel-01.mp4", pesoMB: 10.9 },
+    media: { tipo: "local", src: "/01_REELS/2025-Desvelados_Thai Latte.mp4", pesoMB: 10.9 },
     galeria: 0,
     demo: true,
   },
@@ -165,13 +171,13 @@ export const PIEZAS: Pieza[] = [
     metricas: [{ valor: "18 s", etiqueta: "de duración" }],
     destacado: false,
     orden: 2,
-    media: { tipo: "local", src: "/demo/reels/reel-02.mp4", pesoMB: 17.9 },
+    media: { tipo: "local", src: "/01_REELS/2025_Desvelados_PumkingSpicen.mp4", pesoMB: 17.9 },
     galeria: 0,
     demo: true,
   },
   {
-    slug: "desvelados-otono-chisme-matcha",
-    titulo: "Chisme Matcha",
+    slug: "desvelados-que-le-puedo-ofrecer",
+    titulo: "¿Qué le puedo ofrecer?",
     cliente: "Desvelados",
     clienteId: "31_DESVELADOS",
     categoria: "Cafetería de especialidad",
@@ -179,31 +185,21 @@ export const PIEZAS: Pieza[] = [
     rubro: "reels",
     formato: "vertical",
     anio: 2025,
-    resumen: "El nombre ya era el gancho; el video solo tenía que sostenerlo.",
+    resumen: "La pregunta de barra convertida en gancho de apertura.",
     descripcion: [
-      "Cierra la campaña de otoño. Cuando el producto ya trae un nombre con personalidad, el trabajo del video es no estorbarle: ritmo corto, corte seco y el nombre a cuadro cuando la bebida ya se ve terminada.",
+      "Cierra la campaña de otoño. La frase que el barista dice cien veces al día abre el video, y el resto de la pieza son las respuestas posibles: cada bebida de la temporada en un corte.",
     ],
     servicios: ["contenido-vertical"],
     metricas: [{ valor: "3ª pieza", etiqueta: "de la campaña de otoño" }],
     destacado: false,
     orden: 3,
-    media: { tipo: "local", src: "/demo/reels/reel-03.mp4", pesoMB: 21.0 },
+    media: { tipo: "local", src: "/01_REELS/2025-Desvelados-Que-Le-Puedo-Ofrecer.mp4", pesoMB: 13.8 },
     galeria: 0,
     demo: true,
   },
 
   /* ─── REELS · otros clientes, para demostrar rango ───
-
-     APARTADOS HASTA TENER R2. Los masters de Landmark (34 MB) y BRICKA
-     (45 MB) hacen que el paquete de despliegue rebase el tope de subida
-     de Netlify: con los cinco, el despliegue falla al empaquetar.
-
-     Los archivos están en  C:\Users\Elihu\Proyectos\_eci-videos-pendientes-r2
-
-     Vuelven en cuanto estén reexportados a 6–12 MB y servidos desde
-     Cloudflare R2. Las fichas se quedan escritas para no rehacerlas.
-  */
-  /*
+     Reexportados y servidos desde R2. */
   {
     slug: "landmark-departamento-1404",
     titulo: "Departamento 1404",
@@ -225,7 +221,7 @@ export const PIEZAS: Pieza[] = [
     ],
     destacado: true,
     orden: 4,
-    media: { tipo: "local", src: "/demo/reels/reel-04.mp4", pesoMB: 34.4 },
+    media: { tipo: "local", src: "/01_REELS/2026-BRICKA-Landmark-Departamento-140.mp4", pesoMB: 15.4 },
     galeria: 0,
     demo: true,
   },
@@ -246,11 +242,10 @@ export const PIEZAS: Pieza[] = [
     metricas: [{ valor: "3 usos", etiqueta: "en un solo espacio" }],
     destacado: false,
     orden: 5,
-    media: { tipo: "local", src: "/demo/reels/reel-05.mp4", pesoMB: 45.2 },
+    media: { tipo: "local", src: "/01_REELS/2026-Bricka-Casa.Salon.Evento.mp4", pesoMB: 20.1 },
     galeria: 0,
     demo: true,
   },
-  */
 
   /* ─── COMERCIAL 16:9 ─── */
   {
@@ -453,6 +448,95 @@ export const PIEZAS: Pieza[] = [
       },
     ],
     destacado: false,
+    orden: 9,
+    media: { tipo: "ninguno" },
+    galeria: 0,
+    demo: true,
+  },
+
+  /* ═══════════════════════════════════════════════════════════════
+     FOTO · Athípico — PRIMERA PIEZA CON MATERIAL REAL
+
+     Los textos son una PROPUESTA, escrita a partir de las imágenes.
+     Elihu los reescribe con lo que realmente se acordó con el cliente.
+     ═══════════════════════════════════════════════════════════════ */
+  {
+    slug: "athipico-producto",
+    titulo: "Antes de la taza",
+    cliente: "Athípico",
+    clienteId: "01_ATHIPICO",
+    categoria: "Café de especialidad",
+    rubro: "foto",
+    formato: "estatico",
+    anio: 2025,
+    resumen:
+      "La molienda, la extracción y el vertido, fotografiados con la misma precisión con que se ejecutan.",
+    portada: "/trabajo/athipico-producto/portada.jpg",
+    tarjeta: "/trabajo/athipico-producto/tarjeta.jpg",
+    tarjetaHover: "/trabajo/athipico-producto/tarjeta-hover.jpg",
+    contexto: {
+      titulo: "El precio se explica solo si se ve",
+      parrafos: [
+        "Un café de especialidad cuesta el doble que uno de cadena, y esa diferencia vive en pasos que el cliente nunca alcanza a ver: la molienda al gramo, la distribución pareja, los segundos exactos de extracción. Athípico necesitaba mostrar ese trabajo sin caer en el catálogo de producto.",
+        "La sesión se resolvió como una secuencia de proceso y no como fotos sueltas: cada imagen es un momento del ritual, en el orden en que ocurre. La luz se mantuvo cálida y baja para que el metal y la madera conservaran su textura, y el fondo se dejó siempre fuera de foco para que nunca compitiera con las manos.",
+      ],
+    },
+    descripcion: [],
+    servicios: ["fotografia"],
+    metricas: [],
+    modulos: [
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1287, h: 2000, src: "/trabajo/athipico-producto/galeria/01.jpg", pie: "El resultado, antes de contar cómo se llega" },
+          { w: 1333, h: 2000, src: "/trabajo/athipico-producto/galeria/04.jpg", pie: "Dosificación al portafiltro" },
+        ],
+      },
+      {
+        tipo: "texto",
+        titulo: "La molienda es la mitad del café",
+        parrafos: [
+          "El primer bloque de la secuencia se dedica al molino porque es donde se decide casi todo: el grosor, el peso exacto, la distribución dentro del portafiltro. Es también el paso menos vistoso, así que se fotografió en plano cerrado para que la textura del café molido cargara la imagen.",
+        ],
+        imagen: { w: 1333, h: 2000, src: "/trabajo/athipico-producto/galeria/05.jpg", pie: "Molienda lista, antes del prensado" },
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1333, h: 2000, src: "/trabajo/athipico-producto/galeria/06.jpg", pie: "Extracción" },
+          { w: 1333, h: 2000, src: "/trabajo/athipico-producto/galeria/07.jpg", pie: "Los primeros segundos, en detalle" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1333, h: 2000, src: "/trabajo/athipico-producto/galeria/08.jpg", pie: "Vaporizado de la leche" },
+          { w: 1333, h: 2000, src: "/trabajo/athipico-producto/galeria/09.jpg", pie: "La jarra, lista para verter" },
+        ],
+      },
+      {
+        tipo: "texto",
+        titulo: "El vertido es lo que la gente fotografía",
+        parrafos: [
+          "El arte latte es el único paso que el cliente sí ve, y el que termina en redes. Se cubrió con dos tomas: el vertido en movimiento y la taza ya terminada, para que la marca tenga una imagen de proceso y otra de producto sin volver a montar el set.",
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1390, h: 2000, src: "/trabajo/athipico-producto/galeria/10.jpg", pie: "El vertido" },
+          { w: 1333, h: 2000, src: "/trabajo/athipico-producto/galeria/11.jpg", pie: "Taza terminada" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1333, h: 2000, src: "/trabajo/athipico-producto/galeria/02.jpg", pie: "Bebida fría de temporada" },
+          { w: 1333, h: 2000, src: "/trabajo/athipico-producto/galeria/03.jpg", pie: "Integrado frente al cliente" },
+        ],
+      },
+    ],
+    destacado: true,
     orden: 9,
     media: { tipo: "ninguno" },
     galeria: 0,

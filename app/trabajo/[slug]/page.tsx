@@ -13,6 +13,7 @@ import {
   type Pieza,
 } from "@/lib/content";
 import { SERVICIOS } from "@/lib/sitio";
+import { urlMedia } from "@/lib/media";
 
 export function generateStaticParams() {
   // Los rubros ocultos no generan ruta: no se listan ni se indexan.
@@ -96,7 +97,15 @@ export default async function Caso({
             className="overflow-hidden rounded-2xl border border-[var(--color-borde)]"
             style={{ aspectRatio: "16 / 9" }}
           >
-            <Placeholder formato="horizontal" etiqueta="portada del caso" />
+            {p.portada ? (
+              <img
+                src={urlMedia(p.portada)}
+                alt=""
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <Placeholder formato="horizontal" etiqueta="portada del caso" />
+            )}
           </div>
         )}
       </div>

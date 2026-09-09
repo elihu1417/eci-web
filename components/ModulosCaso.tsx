@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Placeholder from "./Placeholder";
 import { imagenesDe, type Imagen, type Modulo } from "@/lib/content";
+import { urlMedia } from "@/lib/media";
 
 /* Cuerpo del caso de estudio, armado por módulos.
 
@@ -52,12 +53,21 @@ function Recorte({
       style={{ aspectRatio: proporcion }}
       aria-label={`Abrir ${imagen.pie ?? "imagen"} en tamaño original`}
     >
-      <Placeholder
-        formato="estatico"
-        medidas={{ w: imagen.w, h: imagen.h }}
-        etiqueta={etiqueta}
-        variante={variante}
-      />
+      {imagen.src ? (
+        <img
+          src={urlMedia(imagen.src)}
+          alt={imagen.pie ?? ""}
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover/img:scale-[1.03]"
+        />
+      ) : (
+        <Placeholder
+          formato="estatico"
+          medidas={{ w: imagen.w, h: imagen.h }}
+          etiqueta={etiqueta}
+          variante={variante}
+        />
+      )}
       {/* Aviso de recorte: solo cuando el original no coincide con la caja */}
       {recortada && (
         <span className="absolute left-3 top-3 rounded-full bg-[color-mix(in_srgb,#111827_78%,transparent)] px-2.5 py-1 text-[10px] tracking-wider text-[var(--color-naranja)] backdrop-blur-sm">
@@ -142,11 +152,19 @@ function Visor({
             maxWidth: "100%",
           }}
         >
-          <Placeholder
-            formato="estatico"
-            medidas={{ w: img.w, h: img.h }}
-            etiqueta="tamaño original"
-          />
+          {img.src ? (
+            <img
+              src={urlMedia(img.src)}
+              alt={img.pie ?? ""}
+              className="h-full w-full object-contain"
+            />
+          ) : (
+            <Placeholder
+              formato="estatico"
+              medidas={{ w: img.w, h: img.h }}
+              etiqueta="tamaño original"
+            />
+          )}
         </div>
         <Flecha lado="der" onClick={() => onMover(1)} />
       </div>

@@ -30,8 +30,16 @@
 
 const BASE = (process.env.NEXT_PUBLIC_MEDIA_BASE ?? "").replace(/\/$/, "");
 
+/* Los nombres de archivo reales traen espacios y ampersands —
+   "2025-Desvelados_Thai Latte.mp4", "..._R&G.Tak.mp4"— que en una URL
+   hay que codificar o el navegador corta la ruta. Se codifica segmento
+   por segmento para no tocar las diagonales. */
+const codificar = (ruta: string) =>
+  ruta.split("/").map((s) => encodeURIComponent(s)).join("/");
+
 export function urlMedia(src: string): string {
   if (!src) return src;
   if (/^https?:\/\//i.test(src)) return src;
-  return BASE ? `${BASE}${src.startsWith("/") ? "" : "/"}${src}` : src;
+  const limpia = src.startsWith("/") ? src.slice(1) : src;
+  return `${BASE}/${codificar(limpia)}`;
 }

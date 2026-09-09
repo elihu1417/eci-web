@@ -75,7 +75,16 @@ function Tarjeta({ p }: { p: Pieza }) {
         style={{ aspectRatio: PROPORCION[p.formato] }}
       >
         {/* Recurso base */}
-        <Placeholder formato={p.formato} etiqueta="recurso base" variante={1} />
+        {p.tarjeta ? (
+          <img
+            src={urlMedia(p.tarjeta)}
+            alt=""
+            loading="lazy"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : (
+          <Placeholder formato={p.formato} etiqueta="recurso base" variante={1} />
+        )}
 
         {/* Segundo recurso: aparece al pasar el cursor.
             En las piezas de video es el preview mudo; en las estáticas
@@ -98,7 +107,16 @@ function Tarjeta({ p }: { p: Pieza }) {
               hover ? "opacity-100" : "opacity-0"
             }`}
           >
-            <Placeholder formato={p.formato} etiqueta="segundo recurso" variante={2} esHover />
+            {p.tarjetaHover ? (
+              <img
+                src={urlMedia(p.tarjetaHover)}
+                alt=""
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <Placeholder formato={p.formato} etiqueta="segundo recurso" variante={2} esHover />
+            )}
           </div>
         )}
 
