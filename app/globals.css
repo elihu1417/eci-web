@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+/* ───────────────────────────────────────────────────────────────
+   Sistema de diseño ECI
+   Paleta oficial tomada de 02_MARCA_ECI/02_ASSETS_FIJOS/02_Colores
+   Dirección visual del Documento Maestro de Identidad, sección 06:
+   "fondo azul marino casi negro, tipografía blanca condensada y muy
+    pesada, manchas de gradiente suaves (naranja y azul)"
+   ─────────────────────────────────────────────────────────────── */
+
+@theme {
+  --color-menta: #a3eadc;
+  --color-naranja: #e27240;
+  --color-azul: #428ee6;
+  --color-crema: #eeebe3;
+  --color-oscuro: #22222c;
+  --color-profundo: #111827;
+
+  --color-fondo: #111827;
+  --color-superficie: #22222c;
+  --color-texto: #eeebe3;
+  --color-texto-tenue: color-mix(in srgb, #eeebe3 55%, transparent);
+  --color-borde: color-mix(in srgb, #eeebe3 12%, transparent);
+
+  --font-display: var(--fuente-display), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--fuente-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --ease-eci: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/fonts/BricolageGrotesque.ttf") format("truetype-variations");
+  font-weight: 200 800;
+  font-stretch: 75% 100%;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("/fonts/DMSans.ttf") format("truetype-variations");
+  font-weight: 100 1000;
+  font-display: swap;
+}
+
+:root {
+  --fuente-display: "Bricolage Grotesque";
+  --fuente-sans: "DM Sans";
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-fondo);
+}
+
+body {
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-menta);
+  color: var(--color-profundo);
+}
+
+/* Titulares: condensada y muy pesada, como pide la dirección visual */
+.display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 78%;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.display-suave {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-stretch: 85%;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+}
+
+/* Manchas de gradiente suaves — naranja y azul */
+.aura::before {
+  content: "";
+  position: absolute;
+  inset: -20% -10% auto -10%;
+  height: 70%;
+  background:
+    radial-gradient(45% 55% at 18% 25%, color-mix(in srgb, var(--color-naranja) 32%, transparent), transparent 70%),
+    radial-gradient(50% 60% at 82% 15%, color-mix(in srgb, var(--color-azul) 30%, transparent), transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Feed de reels: scroll-snap nativo */
+.feed {
+  scroll-snap-type: y mandatory;
+  overscroll-behavior-y: contain;
+}
+.feed > * {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.sin-barra::-webkit-scrollbar { display: none; }
+.sin-barra { scrollbar-width: none; }
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,30 @@
+# Dependencias y compilación
+node_modules/
+.next/
+out/
+.vercel/
+.netlify/
+
+# Entorno
+.env*.local
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ────────────────────────────────────────────────────────────────
+# VIDEOS DE DEMOSTRACIÓN
+#
+# Están incluidos a propósito para que el feed se pueda probar en
+# el despliegue. Son ~128 MB de masters sin optimizar.
+#
+# ANTES DEL LANZAMIENTO PÚBLICO hay que:
+#   1. Reexportarlos a 6–12 MB según el manual
+#   2. Subirlos a Cloudflare R2 (10 GB gratis, egreso sin costo)
+#   3. Descomentar la línea de abajo y sacarlos del historial
+#
+# Servir video desde Vercel consume el ancho de banda del plan:
+# un visitante que recorre el feed completo descarga ~128 MB.
+# ────────────────────────────────────────────────────────────────
+public/demo/reels/*.mp4

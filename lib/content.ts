@@ -1,0 +1,635 @@
+/* ───────────────────────────────────────────────────────────────
+   CONTENIDO DE DEMOSTRACIÓN
+
+   Un proyecto de ejemplo por cada tipo de área, con la ficha
+   completamente llena. Sirve para dos cosas:
+
+   1. Probar la estructura de la web sin material exportado.
+   2. Enseñarle al equipo qué tan largo debe ser cada campo y con
+      qué tono se escribe.
+
+   TODAS las piezas llevan `demo: true`. Antes de lanzar se apagan
+   con una sola bandera — no queda rastro.
+
+   La estructura de estos objetos es idéntica al frontmatter de
+   _FICHA.md en 01_RECURSOS/00_NuevoOrden. Cuando conectemos Sanity,
+   cambia de dónde salen los datos, no el resto del sitio.
+   ─────────────────────────────────────────────────────────────── */
+
+export type Rubro =
+  | "marca"
+  | "marca-express"
+  | "reels"
+  | "comercial"
+  | "foto"
+  | "diseno"
+  | "web";
+
+export type Formato = "vertical" | "horizontal" | "estatico";
+
+export type Metrica = { valor: string; etiqueta: string };
+
+export type Media =
+  | { tipo: "local"; src: string; pesoMB: number }
+  | { tipo: "youtube"; id: string }
+  | { tipo: "ninguno" };
+
+/* ── Una imagen dentro de un caso ──
+   Guarda las medidas del ARCHIVO ORIGINAL, que casi nunca coinciden
+   con la proporción que usa el layout. La rejilla recorta a cuadrada
+   o a panorámica para que la interfaz quede ordenada; el visor a
+   pantalla completa muestra la foto entera, sin recorte. */
+export type Imagen = {
+  /** Medidas del archivo tal como se exportó */
+  w: number;
+  h: number;
+  pie?: string;
+};
+
+/* ── Módulos del cuerpo del caso de estudio ──
+   Se combinan libremente y en cualquier orden. Un proyecto puede ser
+   solo cuadrículas; otro puede alternar texto e imagen. Lo decide
+   cada proyecto según lo que haya que contar. */
+export type Modulo =
+  /* Dos imágenes recortadas a cuadrada, una al lado de la otra */
+  | { tipo: "cuadricula"; imagenes: [Imagen, Imagen] }
+  /* Una sola imagen que cubre el ancho de las dos anteriores */
+  | { tipo: "completa"; imagen: Imagen; alto?: "normal" | "panoramico" }
+  /* Bloque de texto: título grande a la izquierda, párrafos a la
+     derecha. Opcionalmente con una imagen al costado. */
+  | { tipo: "texto"; titulo: string; parrafos: string[]; imagen?: Imagen };
+
+/* Reúne, en orden de lectura, todas las imágenes de un caso.
+   Es la lista que recorre el visor con las flechas. */
+export const imagenesDe = (modulos: Modulo[] = []): Imagen[] =>
+  modulos.flatMap((m) =>
+    m.tipo === "cuadricula"
+      ? m.imagenes
+      : m.tipo === "completa"
+      ? [m.imagen]
+      : m.imagen
+      ? [m.imagen]
+      : []
+  );
+
+export type Pieza = {
+  slug: string;
+  titulo: string;
+  cliente: string;
+  clienteId: string;
+  /* Categoría o giro del cliente — se muestra en la tarjeta */
+  categoria: string;
+  /* Logo reducido del cliente para el recuadro de la tarjeta.
+     Si no hay archivo, se dibuja un monograma con sus iniciales. */
+  logo?: string;
+  campana?: string;
+  rubro: Rubro;
+  formato: Formato;
+  anio: number;
+  resumen: string;
+  /* Contexto general del proyecto: un título y el párrafo que lo
+     acompaña. Sustituye al bloque de tres métricas en el caso. */
+  contexto?: { titulo: string; parrafos: string[] };
+  descripcion: string[];
+  servicios: string[];
+  metricas: Metrica[];
+  modulos?: Modulo[];
+  destacado: boolean;
+  orden: number;
+  media: Media;
+  galeria: number;
+  demo: boolean;
+};
+
+export const RUBROS: { id: Rubro; nombre: string; corto: string }[] = [
+  { id: "marca", nombre: "Identidad completa", corto: "Marca" },
+  { id: "marca-express", nombre: "Identidad exprés", corto: "Exprés" },
+  { id: "reels", nombre: "Contenido vertical", corto: "Reels" },
+  { id: "comercial", nombre: "Audiovisual comercial", corto: "Comercial" },
+  { id: "foto", nombre: "Fotografía", corto: "Foto" },
+  { id: "diseno", nombre: "Diseño gráfico", corto: "Diseño" },
+  { id: "web", nombre: "Desarrollo web", corto: "Web" },
+];
+
+/* Medidas del manual — se dibujan sobre cada placeholder para poder
+   juzgar los tamaños reales en pantalla. */
+export const MEDIDAS: Record<Formato, { w: number; h: number }> = {
+  vertical: { w: 1080, h: 1920 },
+  horizontal: { w: 1920, h: 1080 },
+  estatico: { w: 1600, h: 1200 },
+};
+
+export const PIEZAS: Pieza[] = [
+  /* ─── REELS · Desvelados — tres piezas de una misma campaña ─── */
+  {
+    slug: "desvelados-otono-thai-latte",
+    titulo: "Thai Latte",
+    cliente: "Desvelados",
+    clienteId: "31_DESVELADOS",
+    categoria: "Cafetería de especialidad",
+    campana: "otono-2025",
+    rubro: "reels",
+    formato: "vertical",
+    anio: 2025,
+    resumen: "La bebida de temporada contada en el tiempo que tarda en servirse.",
+    descripcion: [
+      "Desvelados abre temporada de otoño con tres bebidas nuevas y necesita que se entiendan en redes antes de que alguien pise la cafetería. El reto no era mostrar el producto: era que se antojara en los primeros dos segundos, antes de que el pulgar siguiera de largo.",
+      "Grabamos las tres bebidas en una sola sesión de medio día, aprovechando la luz natural del local a media mañana. El montaje sigue el ritmo del proceso —vertido, vapor, primer sorbo— sin locución, apoyado solo en diseño sonoro.",
+    ],
+    servicios: ["contenido-vertical"],
+    metricas: [
+      { valor: "3 piezas", etiqueta: "en una sola sesión" },
+      { valor: "1/2 día", etiqueta: "de grabación" },
+    ],
+    destacado: true,
+    orden: 1,
+    media: { tipo: "local", src: "/demo/reels/reel-01.mp4", pesoMB: 10.9 },
+    galeria: 0,
+    demo: true,
+  },
+  {
+    slug: "desvelados-otono-pumpkin-spice",
+    titulo: "Pumpkin Spice",
+    cliente: "Desvelados",
+    clienteId: "31_DESVELADOS",
+    categoria: "Cafetería de especialidad",
+    campana: "otono-2025",
+    rubro: "reels",
+    formato: "vertical",
+    anio: 2025,
+    resumen: "El clásico de temporada, sin el cliché de temporada.",
+    descripcion: [
+      "Segunda pieza de la campaña de otoño. La instrucción de dirección de arte fue evitar todo el repertorio visual gastado del pumpkin spice —hojas secas, suéteres, luz naranja— y quedarse en el producto y las manos.",
+    ],
+    servicios: ["contenido-vertical"],
+    metricas: [{ valor: "18 s", etiqueta: "de duración" }],
+    destacado: false,
+    orden: 2,
+    media: { tipo: "local", src: "/demo/reels/reel-02.mp4", pesoMB: 17.9 },
+    galeria: 0,
+    demo: true,
+  },
+  {
+    slug: "desvelados-otono-chisme-matcha",
+    titulo: "Chisme Matcha",
+    cliente: "Desvelados",
+    clienteId: "31_DESVELADOS",
+    categoria: "Cafetería de especialidad",
+    campana: "otono-2025",
+    rubro: "reels",
+    formato: "vertical",
+    anio: 2025,
+    resumen: "El nombre ya era el gancho; el video solo tenía que sostenerlo.",
+    descripcion: [
+      "Cierra la campaña de otoño. Cuando el producto ya trae un nombre con personalidad, el trabajo del video es no estorbarle: ritmo corto, corte seco y el nombre a cuadro cuando la bebida ya se ve terminada.",
+    ],
+    servicios: ["contenido-vertical"],
+    metricas: [{ valor: "3ª pieza", etiqueta: "de la campaña de otoño" }],
+    destacado: false,
+    orden: 3,
+    media: { tipo: "local", src: "/demo/reels/reel-03.mp4", pesoMB: 21.0 },
+    galeria: 0,
+    demo: true,
+  },
+
+  /* ─── REELS · otros clientes, para demostrar rango ───
+
+     APARTADOS HASTA TENER R2. Los masters de Landmark (34 MB) y BRICKA
+     (45 MB) hacen que el paquete de despliegue rebase el tope de subida
+     de Netlify: con los cinco, el despliegue falla al empaquetar.
+
+     Los archivos están en  C:\Users\Elihu\Proyectos\_eci-videos-pendientes-r2
+
+     Vuelven en cuanto estén reexportados a 6–12 MB y servidos desde
+     Cloudflare R2. Las fichas se quedan escritas para no rehacerlas.
+  */
+  /*
+  {
+    slug: "landmark-departamento-1404",
+    titulo: "Departamento 1404",
+    cliente: "Erika · Landmark",
+    clienteId: "27_LANDMARK",
+    categoria: "Bienes raíces",
+    rubro: "reels",
+    formato: "vertical",
+    anio: 2026,
+    resumen: "Un recorrido de departamento que se entiende sin narración.",
+    descripcion: [
+      "Bienes raíces en formato vertical tiene un problema propio: el recorrido tradicional es horizontal y aburrido. Aquí la cámara sigue el trayecto que haría alguien que llega a vivir, no el que haría un inspector.",
+      "Los gráficos en pantalla sustituyen a la locución: metros cuadrados, recámaras y amenidades aparecen cuando el espacio correspondiente está a cuadro.",
+    ],
+    servicios: ["contenido-vertical"],
+    metricas: [
+      { valor: "1404", etiqueta: "piso 14, unidad 04" },
+      { valor: "0", etiqueta: "palabras de locución" },
+    ],
+    destacado: true,
+    orden: 4,
+    media: { tipo: "local", src: "/demo/reels/reel-04.mp4", pesoMB: 34.4 },
+    galeria: 0,
+    demo: true,
+  },
+  {
+    slug: "bricka-casa-salon-eventos",
+    titulo: "Casa, salón y eventos",
+    cliente: "BRICKA",
+    clienteId: "29_BRICKA",
+    categoria: "Espacios para eventos",
+    rubro: "reels",
+    formato: "vertical",
+    anio: 2026,
+    resumen: "Un mismo espacio contando sus tres vidas posibles.",
+    descripcion: [
+      "BRICKA renta un mismo inmueble para tres usos distintos, y su problema comercial era que quien lo veía como casa no lo imaginaba como salón. La pieza resuelve eso con transiciones sobre el mismo encuadre: el espacio se transforma sin que la cámara se mueva.",
+    ],
+    servicios: ["contenido-vertical"],
+    metricas: [{ valor: "3 usos", etiqueta: "en un solo espacio" }],
+    destacado: false,
+    orden: 5,
+    media: { tipo: "local", src: "/demo/reels/reel-05.mp4", pesoMB: 45.2 },
+    galeria: 0,
+    demo: true,
+  },
+  */
+
+  /* ─── COMERCIAL 16:9 ─── */
+  {
+    slug: "eci-pieza-comercial-demo",
+    titulo: "Pieza comercial de referencia",
+    cliente: "ECI",
+    clienteId: "00_ECI",
+    categoria: "Marca propia",
+    logo: "/marca/logos/ECI_Secundario_Crema.svg",
+    rubro: "comercial",
+    formato: "horizontal",
+    anio: 2026,
+    resumen: "Formato cine 16:9 servido desde YouTube sin listar, cargado solo al hacer clic.",
+    contexto: {
+      titulo: "El video vive fuera del sitio",
+      parrafos: [
+        "Esta pieza está aquí para probar el comportamiento del reproductor 16:9 dentro del caso de estudio: el video no se carga hasta que alguien lo pide, de modo que la página abre en el mismo tiempo tenga o no tenga video.",
+        "En producción, cada comercial vive en Vimeo o YouTube sin listar y en la carpeta del proyecto solo queda su identificador. Un comercial de dos minutos pesa cientos de megas y no hay razón para duplicarlo en el disco del sitio.",
+      ],
+    },
+    descripcion: [],
+    servicios: ["audiovisual-comercial"],
+    metricas: [],
+    destacado: true,
+    orden: 6,
+    media: { tipo: "youtube", id: "9O3Rb37micI" },
+    galeria: 0,
+    demo: true,
+  },
+
+  /* ═══════════════════════════════════════════════════════════════
+     MARCA · Don Neto — composición MIXTA
+     Alterna cuadrículas, imagen completa y bloques de texto. Es el
+     caso "robusto", para proyectos con mucho que contar.
+     ═══════════════════════════════════════════════════════════════ */
+  {
+    slug: "don-neto-identidad",
+    titulo: "Identidad Don Neto",
+    cliente: "Don Neto",
+    clienteId: "07_DON-NETO",
+    categoria: "Destilados artesanales",
+    rubro: "marca",
+    formato: "estatico",
+    anio: 2025,
+    resumen: "Un destilado con historia de familia que se veía como cualquier otro en el anaquel.",
+    contexto: {
+      titulo: "Que se lea a tres metros",
+      parrafos: [
+        "Don Neto llegó con un producto bueno y una etiqueta que no lo defendía. En el anaquel competía contra marcas con presupuesto de agencia grande y perdía antes de que alguien alcanzara a leer el nombre.",
+        "El sistema completo se construyó alrededor de una sola restricción: que la marca funcione a tres metros de distancia, que es donde se decide una compra de anaquel. Todo lo demás —paleta, retícula, jerarquía— salió de ahí.",
+      ],
+    },
+    descripcion: [],
+    servicios: ["identidad-completa"],
+    metricas: [],
+    modulos: [
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 2400, h: 2400, pie: "Logotipo principal" },
+          { w: 2000, h: 2500, pie: "Versión reducida para tapa" },
+        ],
+      },
+      {
+        tipo: "texto",
+        titulo: "Dirección de arte de la etiqueta",
+        parrafos: [
+          "La etiqueta anterior usaba seis tintas y un degradado que encarecía cada tiraje y se ensuciaba al imprimirse sobre papel de caña. Bajamos el sistema a dos tintas planas, lo que abarató la producción y de paso volvió la marca más reconocible.",
+          "La tipografía condensada de peso alto resuelve el problema de la distancia: el nombre ocupa el ancho completo de la etiqueta sin invadir el espacio del sello de origen.",
+        ],
+      },
+      {
+        tipo: "completa",
+        alto: "panoramico",
+        imagen: { w: 4200, h: 1750, pie: "La familia completa en anaquel" },
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 3000, h: 2000, pie: "Papelería" },
+          { w: 2000, h: 3000, pie: "Aplicación en caja de traslado" },
+        ],
+      },
+      {
+        tipo: "texto",
+        titulo: "Construcción del sello",
+        parrafos: [
+          "El sello de origen se dibujó desde la marca de fierro que la familia usa en el rancho desde los años sesenta. No se estilizó de más: conserva la irregularidad del trazo original, que es lo que lo hace suyo y no de un banco de íconos.",
+        ],
+        imagen: { w: 2200, h: 2200, pie: "El fierro original y su versión digital" },
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 3200, h: 2133, pie: "Manual de marca" },
+          { w: 2400, h: 2400, pie: "Plantillas de redes" },
+        ],
+      },
+    ],
+    destacado: true,
+    orden: 7,
+    media: { tipo: "ninguno" },
+    galeria: 0,
+    demo: true,
+  },
+
+  /* ═══════════════════════════════════════════════════════════════
+     MARCA · Desvelados — composición SOLO CUADRÍCULA
+     El mismo sistema de módulos, usado en su versión más simple:
+     puras imágenes, sin bloques de texto. Demuestra el punto 4 —
+     el layout depende de lo que cada proyecto tenga que contar.
+     ═══════════════════════════════════════════════════════════════ */
+  {
+    slug: "desvelados-identidad",
+    titulo: "Identidad Desvelados",
+    cliente: "Desvelados",
+    clienteId: "31_DESVELADOS",
+    categoria: "Cafetería de especialidad",
+    rubro: "marca",
+    formato: "estatico",
+    anio: 2025,
+    resumen: "Una cafetería que abre de noche y necesitaba que eso se notara desde la fachada.",
+    contexto: {
+      titulo: "Una marca para las horas raras",
+      parrafos: [
+        "Desvelados abre cuando las demás cafeterías cierran. Su público no busca el ritual de la mañana sino el turno nocturno: estudiantes en examen, gente que sale tarde del trabajo, insomnes con laptop. La identidad tenía que decir eso sin explicarlo.",
+      ],
+    },
+    descripcion: [],
+    servicios: ["identidad-completa"],
+    metricas: [],
+    modulos: [
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 2400, h: 2400, pie: "Logotipo" },
+          { w: 2400, h: 2400, pie: "Isotipo nocturno" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 3000, h: 2000, pie: "Paleta" },
+          { w: 2000, h: 2500, pie: "Tipografía aplicada" },
+        ],
+      },
+      {
+        tipo: "completa",
+        imagen: { w: 3600, h: 2025, pie: "Fachada y letrero luminoso" },
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 2000, h: 3000, pie: "Vasos y sleeves" },
+          { w: 3000, h: 2000, pie: "Carta de temporada" },
+        ],
+      },
+    ],
+    destacado: false,
+    orden: 8,
+    media: { tipo: "ninguno" },
+    galeria: 0,
+    demo: true,
+  },
+
+  /* ─── MARCA EXPRÉS ─── */
+  {
+    slug: "klevers-identidad-express",
+    titulo: "Arranque de marca Klevers",
+    cliente: "Klevers",
+    clienteId: "18_KLEVERS",
+    categoria: "Consultoría",
+    rubro: "marca-express",
+    formato: "estatico",
+    anio: 2026,
+    resumen: "De cero a redes listas para publicar, en una semana.",
+    contexto: {
+      titulo: "Verse serio el lunes siguiente",
+      parrafos: [
+        "Klevers necesitaba abrir redes con cara de negocio establecido antes de su primera campaña de pauta. No pedía un sistema de marca completo: pedía dejar de verse improvisado antes de gastar en publicidad.",
+      ],
+    },
+    descripcion: [],
+    servicios: ["identidad-express"],
+    metricas: [],
+    modulos: [
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 2400, h: 2400, pie: "Logotipo y reducción" },
+          { w: 3000, h: 2000, pie: "Paleta" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1500, h: 2668, pie: "Perfil aplicado" },
+          { w: 2000, h: 2000, pie: "Primer post anclado" },
+        ],
+      },
+    ],
+    destacado: false,
+    orden: 9,
+    media: { tipo: "ninguno" },
+    galeria: 0,
+    demo: true,
+  },
+
+  /* ─── FOTO ─── */
+  {
+    slug: "desvelados-producto-otono",
+    titulo: "Producto de temporada",
+    cliente: "Desvelados",
+    clienteId: "31_DESVELADOS",
+    categoria: "Cafetería de especialidad",
+    campana: "otono-2025",
+    rubro: "foto",
+    formato: "estatico",
+    anio: 2025,
+    resumen: "Las mismas tres bebidas del reel, en fijo, para carta y catálogo.",
+    contexto: {
+      titulo: "Aprovechar el set que ya estaba montado",
+      parrafos: [
+        "Se aprovechó el mismo día de grabación del contenido vertical: las luces ya estaban montadas y el barista ya estaba en set, así que la sesión de foto costó medio día adicional en vez de una jornada completa.",
+        "La secuencia sigue el orden narrativo del manual: general del set, media distancia con las manos en cuadro, y cierre en detalle de textura.",
+      ],
+    },
+    descripcion: [],
+    servicios: ["fotografia"],
+    metricas: [],
+    /* Las medidas son las que pide el manual para galería de foto:
+       lado largo 2000 px. La mezcla de horizontales, verticales y
+       cuadradas es a propósito — así se ve la diferencia entre el
+       recorte del layout y la foto completa en el visor. */
+    modulos: [
+      {
+        tipo: "completa",
+        imagen: { w: 2000, h: 1333, pie: "General del set" },
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1333, h: 2000, pie: "Thai Latte" },
+          { w: 1333, h: 2000, pie: "Chisme Matcha" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 2000, h: 1333, pie: "Detalle de vertido" },
+          { w: 2000, h: 2000, pie: "Textura de espuma" },
+        ],
+      },
+    ],
+    destacado: false,
+    orden: 10,
+    media: { tipo: "ninguno" },
+    galeria: 0,
+    demo: true,
+  },
+
+  /* ─── DISEÑO ─── */
+  {
+    slug: "acrilexsa-catalogo-industrial",
+    titulo: "Catálogo industrial Acrilexsa",
+    cliente: "Acrilexsa",
+    clienteId: "15_ACRILEXSA",
+    categoria: "Manufactura industrial",
+    rubro: "diseno",
+    formato: "estatico",
+    anio: 2026,
+    resumen: "Fichas técnicas que un vendedor puede usar en el celular, frente al cliente.",
+    contexto: {
+      titulo: "Del PDF de 40 páginas a la ficha suelta",
+      parrafos: [
+        "El catálogo anterior era un PDF pensado para imprimirse. Nadie lo imprimía y en el teléfono era ilegible, así que el equipo de ventas terminaba mandando fotos sueltas por WhatsApp y perdiendo la consistencia de marca en el camino.",
+      ],
+    },
+    descripcion: [],
+    servicios: ["identidad-completa"],
+    metricas: [],
+    modulos: [
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1600, h: 2000, pie: "Ficha de producto" },
+          { w: 1600, h: 2000, pie: "Reverso técnico" },
+        ],
+      },
+      {
+        tipo: "completa",
+        imagen: { w: 3000, h: 1688, pie: "La serie completa" },
+      },
+    ],
+    destacado: false,
+    orden: 11,
+    media: { tipo: "ninguno" },
+    galeria: 0,
+    demo: true,
+  },
+
+  /* ─── WEB ─── */
+  {
+    slug: "tecmi-landing-campus",
+    titulo: "Landing de campus",
+    cliente: "Tecmi",
+    clienteId: "03_TECMI",
+    categoria: "Educación",
+    rubro: "web",
+    formato: "estatico",
+    anio: 2026,
+    resumen: "Una sola página con un solo trabajo: que agenden la visita.",
+    contexto: {
+      titulo: "Un objetivo por página",
+      parrafos: [
+        "La campaña de pauta llevaba tráfico a la página institucional, donde el visitante se perdía entre siete secciones antes de encontrar el formulario. La tasa de rebote lo decía todo.",
+        "Se construyó una landing de una sola página, desplegada en Vercel, con un único objetivo de conversión y el botón de agenda visible en todo momento.",
+      ],
+    },
+    descripcion: [],
+    servicios: ["landing-express"],
+    metricas: [],
+    modulos: [
+      {
+        tipo: "completa",
+        imagen: { w: 2560, h: 1440, pie: "Vista de escritorio" },
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1170, h: 2532, pie: "Móvil · inicio" },
+          { w: 1170, h: 2532, pie: "Móvil · formulario" },
+        ],
+      },
+    ],
+    destacado: false,
+    orden: 12,
+    media: { tipo: "ninguno" },
+    galeria: 0,
+    demo: true,
+  },
+];
+
+/* ── Rubros ocultos en este primer lanzamiento ──
+   No se borra nada: las piezas siguen en el archivo y su ficha queda
+   intacta. Solo desaparecen de los listados, del menú de filtros y de
+   las rutas generadas. Para volver a mostrarlas basta con sacar el
+   rubro de esta lista. */
+export const RUBROS_OCULTOS: Rubro[] = ["web", "diseno"];
+
+export const esVisible = (p: Pieza) => !RUBROS_OCULTOS.includes(p.rubro);
+
+/* Todas las piezas publicables. Es la lista que deben usar los
+   listados; PIEZAS queda como archivo completo. */
+export const visibles = () => PIEZAS.filter(esVisible).sort((a, b) => a.orden - b.orden);
+
+export const piezasPorRubro = (r: Rubro | "todos") =>
+  visibles().filter((p) => r === "todos" || p.rubro === r);
+
+export const reels = () =>
+  visibles().filter((p) => p.rubro === "reels");
+
+export const piezaPorSlug = (slug: string) => PIEZAS.find((p) => p.slug === slug);
+
+export const rubrosActivos = () =>
+  RUBROS.filter(
+    (r) => !RUBROS_OCULTOS.includes(r.id) && PIEZAS.some((p) => p.rubro === r.id)
+  );
+
+export const otrasDelCliente = (p: Pieza) =>
+  visibles().filter((o) => o.clienteId === p.clienteId && o.slug !== p.slug);
+
+/* Iniciales para el monograma que sustituye al logo mientras no
+   tengamos el SVG del cliente. */
+export const iniciales = (nombre: string) =>
+  nombre
+    .replace(/[^\p{L}\s·]/gu, "")
+    .split(/[\s·]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0]?.toUpperCase() ?? "")
+    .join("");
