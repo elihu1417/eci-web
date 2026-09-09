@@ -11,10 +11,9 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# Runtime de Next.js. Netlify lo instala solo al detectar el framework,
-# pero declararlo evita sorpresas si cambian sus valores por defecto.
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+# El runtime de Next.js lo instala Netlify automáticamente al detectar
+# el framework, y así empareja su versión con la de Next. Declararlo a
+# mano aquí, teniéndolo además en package.json, provoca conflictos.
 
 # ── Caché de recursos inmutables ──
 # Los videos y las tipografías nunca cambian sin cambiar de nombre, así
