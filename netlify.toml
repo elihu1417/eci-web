@@ -11,6 +11,15 @@
 [build.environment]
   NODE_VERSION = "22"
 
+  # De dónde salen los archivos pesados: los reels completos y el video
+  # del hero. Las imágenes NO pasan por aquí, viven en el repositorio.
+  #
+  # Va en el archivo y no en el panel a propósito: es una URL pública
+  # que de todos modos termina en el bundle del navegador, así que no
+  # gana nada por estar oculta y sí gana por quedar versionada. Al ser
+  # NEXT_PUBLIC_ se incrusta en tiempo de compilación, no de ejecución.
+  NEXT_PUBLIC_MEDIA_BASE = "https://pub-af9b91193f87401e8189e8e88ccc9f19.r2.dev"
+
 # El runtime de Next.js lo instala Netlify automáticamente al detectar
 # el framework, y así empareja su versión con la de Next. Declararlo a
 # mano aquí, teniéndolo además en package.json, provoca conflictos.
