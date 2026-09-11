@@ -148,6 +148,7 @@ export type Pieza = {
    hay logo se sigue escribiendo el nombre, que es como estaba. */
 export const LOGOS_CLIENTE: Record<string, string> = {
   "Don Neto": "/clientes/don-neto.svg",
+  Minturina: "/clientes/minturina.svg",
 };
 
 /* "A", "A y B", "A, B y C" — para créditos que se leen como frase */
@@ -599,6 +600,154 @@ export const PIEZAS: Pieza[] = [
     ],
     cierre:
       "Este es un proyecto con alma y con mucha historia que tenía un gran potencial de ser contada. Trabajar y reestructurar la marca Don Neto fue un honor para ECI como estudio.",
+    destacado: true,
+    orden: 7,
+    media: { tipo: "ninguno" },
+    galeria: 0,
+    demo: false,
+  },
+
+  /* ═══════════════════════════════════════════════════════════════
+     MARCA · Minturina — MATERIAL REAL, CASI TODO EN VECTOR
+     El sistema entero llegó en SVG: tarjeta, portada, reducciones,
+     paleta y tipografías. Suman 40 KB y no se pixelean nunca.
+     ═══════════════════════════════════════════════════════════════ */
+  {
+    slug: "minturina-identidad",
+    titulo: "Identidad Minturina",
+    cliente: "Minturina",
+    clienteId: "13_MINTURINA",
+    categoria: "Joyería y bisutería",
+    /* De las cuatro reducciones, la de fondo morado es la única con
+       contraste suficiente contra el recuadro oscuro de la tarjeta. */
+    logo: "/trabajo/minturina-identidad/logo.svg",
+    logoLleno: true,
+    portada: "/trabajo/minturina-identidad/portada.svg",
+    tarjeta: "/trabajo/minturina-identidad/tarjeta.svg",
+    tarjetaHover: "/trabajo/minturina-identidad/tarjeta-hover.jpg",
+    rubro: "marca",
+    formato: "estatico",
+    anio: 2024,
+    /* RESUMEN PROPUESTO: el documento de textos no trae uno. Sale de
+       describir lo que cuentan las secciones 1 y 3. */
+    resumen:
+      "Naming e identidad para una marca de joyería y bisutería que buscaba diferenciarse en una categoría llena de nombres iguales.",
+    contexto: {
+      titulo: "Sobre el proyecto",
+      parrafos: [
+        "Este proyecto llegó sin nombre y sin una voz clara, pero con un enfoque definido: mantener el concepto de lo elegante y delicado que se suele encontrar dentro de la categoría de joyería, y a la vez representar la creatividad y la energía con que se expresa cada creación.",
+        "Es aquí donde surge Minturina.",
+      ],
+    },
+    descripcion: [],
+    servicios: ["identidad-completa"],
+    metricas: [],
+    /* El recorrido: se abre con las aplicaciones y la marca puesta,
+       sigue el sistema completo —con los dos estampados enfrentados,
+       que es donde se entiende— y cierra con el catálogo. */
+    modulos: [
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 2000, h: 1333, src: "/trabajo/minturina-identidad/galeria/01-tarjetas.jpg", pie: "Tarjetas de presentación" },
+          { w: 2000, h: 1600, src: "/trabajo/minturina-identidad/galeria/02-tarjetas-lote.jpg", pie: "El tiraje completo" },
+        ],
+      },
+      {
+        tipo: "completa",
+        imagen: { w: 1600, h: 1066, src: "/trabajo/minturina-identidad/galeria/03-foto-reja.jpg", pie: "La marca puesta" },
+      },
+
+      {
+        tipo: "texto",
+        titulo: "Personalidad",
+        parrafos: [
+          "Minturina es un reflejo de los valores y del cómo aborda los proyectos la dueña del negocio, Mirna Vela.",
+          "Es una marca cercana, divertida y comprometida con la calidad de cada una de sus piezas.",
+        ],
+      },
+      {
+        tipo: "completa",
+        imagen: {
+          w: 1600,
+          h: 900,
+          src: "/trabajo/minturina-identidad/galeria/04-logo-animado.jpg",
+          video: "/trabajo/minturina-identidad/galeria/04-logo-animado.mp4",
+          pie: "El logotipo escribiéndose",
+        },
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1109, h: 1104, src: "/trabajo/minturina-identidad/galeria/05-reduccion-lila.svg", pie: "Reducción sobre lila" },
+          { w: 1104, h: 1104, src: "/trabajo/minturina-identidad/galeria/06-reduccion-morada.svg", pie: "Reducción sobre morado" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1109, h: 1104, src: "/trabajo/minturina-identidad/galeria/07-reduccion-rosa.svg", pie: "Reducción en rosa" },
+          { w: 1104, h: 1104, src: "/trabajo/minturina-identidad/galeria/08-reduccion-cyan.svg", pie: "Reducción en cian" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1503, h: 1505, src: "/trabajo/minturina-identidad/galeria/09-colores.svg", pie: "Paleta con sus valores" },
+          { w: 1503, h: 1505, src: "/trabajo/minturina-identidad/galeria/10-tipografias.svg", pie: "Voga y Open Sans" },
+        ],
+      },
+      {
+        /* Los dos estampados enfrentados: es la comparación la que
+           enseña el sistema, no cada uno por su cuenta. */
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1711, h: 2000, src: "/trabajo/minturina-identidad/galeria/11-estampado-cyan.jpg", pie: "Estampado en cian" },
+          { w: 1711, h: 2000, src: "/trabajo/minturina-identidad/galeria/12-estampado-rosa.jpg", pie: "Estampado en rosa" },
+        ],
+      },
+      {
+        tipo: "completa",
+        imagen: { w: 2000, h: 1334, src: "/trabajo/minturina-identidad/galeria/13-tarjeta-detalle.jpg", pie: "Tarjeta, de cerca" },
+      },
+
+      {
+        tipo: "texto",
+        titulo: "Dirección",
+        parrafos: [
+          "Decidimos alejarnos de los nombres más utilizados en este tipo de áreas, que suelen ser el nombre del fundador más la palabra joyería, para diferenciarnos.",
+          "Es así como nace Minturina, evocando una palabra cercana a las terminaciones de algunos de los minerales que se utilizan para sus creaciones, como la aventurina.",
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1273, h: 1600, src: "/trabajo/minturina-identidad/galeria/14-foto-collares.jpg", pie: "Collares en azul y dorado" },
+          { w: 1066, h: 1600, src: "/trabajo/minturina-identidad/galeria/15-foto-ojos.jpg", pie: "Pulsera de ojos" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1066, h: 1600, src: "/trabajo/minturina-identidad/galeria/16-foto-pulsera.jpg", pie: "Pulsera en rojo" },
+          { w: 1067, h: 1600, src: "/trabajo/minturina-identidad/galeria/17-foto-ajuste.jpg", pie: "El ajuste, pieza por pieza" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1067, h: 1600, src: "/trabajo/minturina-identidad/galeria/18-foto-entrega.jpg", pie: "La entrega" },
+          { w: 1067, h: 1600, src: "/trabajo/minturina-identidad/galeria/19-foto-parejas.jpg", pie: "Piezas de a dos" },
+        ],
+      },
+      {
+        tipo: "completa",
+        alto: "cuadro",
+        imagen: { w: 1600, h: 1567, src: "/trabajo/minturina-identidad/galeria/20-foto-manos.jpg", pie: "Hecho para llevarse puesto" },
+      },
+    ],
+    cierre:
+      "Este proyecto nos hizo descubrir que una categoría como la joyería podía tener una personalidad divertida y fuerte, y demostrar a la vez la calidad y delicadeza de sus creaciones.",
     destacado: true,
     orden: 7,
     media: { tipo: "ninguno" },
