@@ -619,10 +619,12 @@ export const PIEZAS: Pieza[] = [
     clienteId: "13_MINTURINA",
     categoria: "Joyería y bisutería",
     /* De las cuatro reducciones, la de fondo morado es la única con
-       contraste suficiente contra el recuadro oscuro de la tarjeta. */
+       contraste contra el recuadro oscuro de la tarjeta. Dentro del
+       caso ya no se enseña —es redundante con las de color—, pero
+       aquí sigue siendo la que se lee. */
     logo: "/trabajo/minturina-identidad/logo.svg",
     logoLleno: true,
-    portada: "/trabajo/minturina-identidad/portada.svg",
+    portada: "/trabajo/minturina-identidad/portada.jpg",
     tarjeta: "/trabajo/minturina-identidad/tarjeta.svg",
     tarjetaHover: "/trabajo/minturina-identidad/tarjeta-hover.jpg",
     rubro: "marca",
@@ -642,9 +644,10 @@ export const PIEZAS: Pieza[] = [
     descripcion: [],
     servicios: ["identidad-completa"],
     metricas: [],
-    /* El recorrido: se abre con las aplicaciones y la marca puesta,
-       sigue el sistema completo —con los dos estampados enfrentados,
-       que es donde se entiende— y cierra con el catálogo. */
+    /* El recorrido: las tarjetas y el producto abren, el sistema va en
+       medio y el catálogo cierra. Dentro del sistema, los estampados
+       van enfrentados —es la comparación la que los explica— y el
+       bloque termina con las dos manos, a lo ancho. */
     modulos: [
       {
         tipo: "cuadricula",
@@ -655,7 +658,8 @@ export const PIEZAS: Pieza[] = [
       },
       {
         tipo: "completa",
-        imagen: { w: 1600, h: 1066, src: "/trabajo/minturina-identidad/galeria/03-foto-reja.jpg", pie: "La marca puesta" },
+        alto: "cuadro",
+        imagen: { w: 1600, h: 1200, src: "/trabajo/minturina-identidad/galeria/03-foto-pulseras.jpg", pie: "Pulseras en azul y dorado" },
       },
 
       {
@@ -679,36 +683,29 @@ export const PIEZAS: Pieza[] = [
       {
         tipo: "cuadricula",
         imagenes: [
-          { w: 1109, h: 1104, src: "/trabajo/minturina-identidad/galeria/05-reduccion-lila.svg", pie: "Reducción sobre lila" },
-          { w: 1104, h: 1104, src: "/trabajo/minturina-identidad/galeria/06-reduccion-morada.svg", pie: "Reducción sobre morado" },
+          { w: 1109, h: 1104, src: "/trabajo/minturina-identidad/galeria/05-reduccion-rosa.svg", pie: "Reducción en rosa" },
+          { w: 1104, h: 1104, src: "/trabajo/minturina-identidad/galeria/06-reduccion-cyan.svg", pie: "Reducción en cian" },
         ],
       },
       {
         tipo: "cuadricula",
         imagenes: [
-          { w: 1109, h: 1104, src: "/trabajo/minturina-identidad/galeria/07-reduccion-rosa.svg", pie: "Reducción en rosa" },
-          { w: 1104, h: 1104, src: "/trabajo/minturina-identidad/galeria/08-reduccion-cyan.svg", pie: "Reducción en cian" },
+          { w: 1504, h: 1507, src: "/trabajo/minturina-identidad/galeria/07-colores.jpg", pie: "Paleta con sus valores" },
+          { w: 1504, h: 1507, src: "/trabajo/minturina-identidad/galeria/08-tipografias.jpg", pie: "Voga y Open Sans" },
         ],
       },
       {
+        /* Enfrentados: es la comparación la que enseña el sistema,
+           cada uno por su cuenta solo es un papel. */
         tipo: "cuadricula",
         imagenes: [
-          { w: 1503, h: 1505, src: "/trabajo/minturina-identidad/galeria/09-colores.svg", pie: "Paleta con sus valores" },
-          { w: 1503, h: 1505, src: "/trabajo/minturina-identidad/galeria/10-tipografias.svg", pie: "Voga y Open Sans" },
-        ],
-      },
-      {
-        /* Los dos estampados enfrentados: es la comparación la que
-           enseña el sistema, no cada uno por su cuenta. */
-        tipo: "cuadricula",
-        imagenes: [
-          { w: 1711, h: 2000, src: "/trabajo/minturina-identidad/galeria/11-estampado-cyan.jpg", pie: "Estampado en cian" },
-          { w: 1711, h: 2000, src: "/trabajo/minturina-identidad/galeria/12-estampado-rosa.jpg", pie: "Estampado en rosa" },
+          { w: 1711, h: 2000, src: "/trabajo/minturina-identidad/galeria/09-estampado-cyan.jpg", pie: "Estampado en cian" },
+          { w: 1711, h: 2000, src: "/trabajo/minturina-identidad/galeria/10-estampado-rosa.jpg", pie: "Estampado en rosa" },
         ],
       },
       {
         tipo: "completa",
-        imagen: { w: 2000, h: 1334, src: "/trabajo/minturina-identidad/galeria/13-tarjeta-detalle.jpg", pie: "Tarjeta, de cerca" },
+        imagen: { w: 1600, h: 900, src: "/trabajo/minturina-identidad/galeria/11-foto-manos.jpg", pie: "De una mano a otra" },
       },
 
       {
@@ -722,28 +719,23 @@ export const PIEZAS: Pieza[] = [
       {
         tipo: "cuadricula",
         imagenes: [
-          { w: 1273, h: 1600, src: "/trabajo/minturina-identidad/galeria/14-foto-collares.jpg", pie: "Collares en azul y dorado" },
-          { w: 1066, h: 1600, src: "/trabajo/minturina-identidad/galeria/15-foto-ojos.jpg", pie: "Pulsera de ojos" },
+          { w: 1066, h: 1600, src: "/trabajo/minturina-identidad/galeria/12-foto-ojos.jpg", pie: "Pulsera de ojos" },
+          { w: 1066, h: 1600, src: "/trabajo/minturina-identidad/galeria/13-foto-pulsera.jpg", pie: "Pulsera en rojo" },
         ],
       },
       {
         tipo: "cuadricula",
         imagenes: [
-          { w: 1066, h: 1600, src: "/trabajo/minturina-identidad/galeria/16-foto-pulsera.jpg", pie: "Pulsera en rojo" },
-          { w: 1067, h: 1600, src: "/trabajo/minturina-identidad/galeria/17-foto-ajuste.jpg", pie: "El ajuste, pieza por pieza" },
+          { w: 1067, h: 1600, src: "/trabajo/minturina-identidad/galeria/14-foto-ajuste.jpg", pie: "El ajuste, pieza por pieza" },
+          { w: 1067, h: 1600, src: "/trabajo/minturina-identidad/galeria/15-foto-parejas.jpg", pie: "Piezas de a dos" },
         ],
       },
       {
         tipo: "cuadricula",
         imagenes: [
-          { w: 1067, h: 1600, src: "/trabajo/minturina-identidad/galeria/18-foto-entrega.jpg", pie: "La entrega" },
-          { w: 1067, h: 1600, src: "/trabajo/minturina-identidad/galeria/19-foto-parejas.jpg", pie: "Piezas de a dos" },
+          { w: 1600, h: 1567, src: "/trabajo/minturina-identidad/galeria/16-foto-parque.jpg", pie: "En el parque" },
+          { w: 1600, h: 1066, src: "/trabajo/minturina-identidad/galeria/17-foto-cancha.jpg", pie: "En la cancha" },
         ],
-      },
-      {
-        tipo: "completa",
-        alto: "cuadro",
-        imagen: { w: 1600, h: 1567, src: "/trabajo/minturina-identidad/galeria/20-foto-manos.jpg", pie: "Hecho para llevarse puesto" },
       },
     ],
     cierre:
