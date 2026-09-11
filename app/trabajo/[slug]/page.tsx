@@ -9,6 +9,7 @@ import {
   RUBROS,
   esVisible,
   iniciales,
+  listar,
   piezaPorSlug,
   otrasDelCliente,
   visibles,
@@ -86,6 +87,11 @@ export default async function Caso({
             <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--color-texto-tenue)]">
               {p.categoria} · {rubro?.nombre} · {p.anio}
             </p>
+            {p.agencias && p.agencias.length > 0 && (
+              <p className="mt-0.5 text-[11px] text-[color-mix(in_srgb,#eeebe3_62%,transparent)]">
+                Con {listar(p.agencias)}
+              </p>
+            )}
           </div>
         </div>
 

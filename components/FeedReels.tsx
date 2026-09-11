@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Placeholder from "./Placeholder";
-import { reels, type Pieza } from "@/lib/content";
+import { listar, reels, type Pieza } from "@/lib/content";
 import { urlMedia } from "@/lib/media";
 
 /* Feed vertical 9:16.
@@ -267,6 +267,11 @@ function Interfaz({
               <span className="ml-2 text-[var(--color-texto-tenue)]">· campaña {pieza.campana}</span>
             )}
           </p>
+          {pieza.agencias && pieza.agencias.length > 0 && (
+            <p className="mt-1 text-[11px] text-[color-mix(in_srgb,#eeebe3_62%,transparent)]">
+              Con {listar(pieza.agencias)}
+            </p>
+          )}
           <h2 className="display mt-2 text-3xl md:text-5xl text-[var(--color-crema)]">
             {pieza.titulo}
           </h2>

@@ -109,6 +109,14 @@ export type Pieza = {
       Si existe, manda sobre `tarjetaHover`, que queda de póster. */
   tarjetaHoverVideo?: string;
   campana?: string;
+  /* Agencias a través de las cuales se produjo la pieza.
+
+     El cliente sigue siendo la marca —el trabajo se hizo para ella— y
+     estas son las agencias que nos llamaron para hacerlo. Van aparte y
+     no mezcladas en el nombre del cliente porque son dos relaciones
+     distintas: una marca puede llegar por varias agencias, y la misma
+     agencia puede traer varias marcas. */
+  agencias?: string[];
   rubro: Rubro;
   formato: Formato;
   anio: number;
@@ -141,6 +149,12 @@ export type Pieza = {
 export const LOGOS_CLIENTE: Record<string, string> = {
   "Don Neto": "/clientes/don-neto.svg",
 };
+
+/* "A", "A y B", "A, B y C" — para créditos que se leen como frase */
+export const listar = (xs: string[]): string =>
+  xs.length <= 1
+    ? xs[0] ?? ""
+    : xs.slice(0, -1).join(", ") + " y " + xs[xs.length - 1];
 
 export const RUBROS: { id: Rubro; nombre: string; corto: string }[] = [
   { id: "marca", nombre: "Identidad completa", corto: "Marca" },
@@ -236,15 +250,15 @@ export const PIEZAS: Pieza[] = [
   /* ─── REELS · otros clientes, para demostrar rango ───
      Reexportados y servidos desde R2. */
   {
-    slug: "landmark-departamento-1404",
+    slug: "bricka-landmark-departamento-1404",
     titulo: "Departamento 1404",
-    cliente: "Erika · Landmark",
-    clienteId: "27_LANDMARK",
+    cliente: "BRICKA",
+    clienteId: "04_BRICKA",
     categoria: "Bienes raíces",
     rubro: "reels",
     formato: "vertical",
     anio: 2026,
-    resumen: "Un recorrido de departamento que se entiende sin narración.",
+    resumen: "Un recorrido por el departamento 1404 de Landmark que se entiende sin narración.",
     descripcion: [
       "Bienes raíces en formato vertical tiene un problema propio: el recorrido tradicional es horizontal y aburrido. Aquí la cámara sigue el trayecto que haría alguien que llega a vivir, no el que haría un inspector.",
       "Los gráficos en pantalla sustituyen a la locución: metros cuadrados, recámaras y amenidades aparecen cuando el espacio correspondiente está a cuadro.",
@@ -288,6 +302,9 @@ export const PIEZAS: Pieza[] = [
     cliente: "Espolón Tequila",
     clienteId: "08_ESPOLON_TEQUILA",
     categoria: "Destilados",
+    /* La marca nos llegó por agencia: el trabajo es para Espolón, y
+       Diptongo y NewGen son quienes lo encargaron. */
+    agencias: ["Diptongo", "NewGen"],
     rubro: "reels",
     formato: "vertical",
     anio: 2026,
@@ -325,7 +342,7 @@ export const PIEZAS: Pieza[] = [
     titulo: "Casa, salón y eventos",
     cliente: "BRICKA",
     clienteId: "04_BRICKA",
-    categoria: "Espacios para eventos",
+    categoria: "Bienes raíces",
     rubro: "reels",
     formato: "vertical",
     anio: 2026,
@@ -347,6 +364,9 @@ export const PIEZAS: Pieza[] = [
     cliente: "Espolón Tequila",
     clienteId: "08_ESPOLON_TEQUILA",
     categoria: "Destilados",
+    /* La marca nos llegó por agencia: el trabajo es para Espolón, y
+       Diptongo y NewGen son quienes lo encargaron. */
+    agencias: ["Diptongo", "NewGen"],
     rubro: "reels",
     formato: "vertical",
     anio: 2026,
@@ -366,6 +386,9 @@ export const PIEZAS: Pieza[] = [
     cliente: "Espolón Tequila",
     clienteId: "08_ESPOLON_TEQUILA",
     categoria: "Destilados",
+    /* La marca nos llegó por agencia: el trabajo es para Espolón, y
+       Diptongo y NewGen son quienes lo encargaron. */
+    agencias: ["Diptongo", "NewGen"],
     rubro: "reels",
     formato: "vertical",
     anio: 2026,
