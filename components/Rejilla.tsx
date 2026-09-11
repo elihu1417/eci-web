@@ -183,12 +183,13 @@ function Tarjeta({ p }: { p: Pieza }) {
             </div>
           </div>
 
+          {/* Sin resumen: en la rejilla el título y el cliente bastan para
+              decidir si entras, y el párrafo apareciendo al pasar el cursor
+              ensuciaba la vista de conjunto. El resumen sigue vivo dentro
+              del caso y en el feed de reels. */}
           <h3 className="display-suave mt-3 text-lg leading-tight text-[var(--color-crema)]">
             {p.titulo}
           </h3>
-          <p className="mt-1 text-xs leading-snug text-[var(--color-texto-tenue)] line-clamp-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            {p.resumen}
-          </p>
         </div>
       </div>
     </Link>
