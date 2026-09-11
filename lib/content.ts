@@ -688,19 +688,19 @@ export const PIEZAS: Pieza[] = [
         ],
       },
       {
-        tipo: "cuadricula",
-        imagenes: [
-          { w: 1504, h: 1507, src: "/trabajo/minturina-identidad/galeria/07-colores.jpg", pie: "Paleta con sus valores" },
-          { w: 1504, h: 1507, src: "/trabajo/minturina-identidad/galeria/08-tipografias.jpg", pie: "Voga y Open Sans" },
-        ],
-      },
-      {
         /* Enfrentados: es la comparación la que enseña el sistema,
            cada uno por su cuenta solo es un papel. */
         tipo: "cuadricula",
         imagenes: [
-          { w: 1711, h: 2000, src: "/trabajo/minturina-identidad/galeria/09-estampado-cyan.jpg", pie: "Estampado en cian" },
-          { w: 1711, h: 2000, src: "/trabajo/minturina-identidad/galeria/10-estampado-rosa.jpg", pie: "Estampado en rosa" },
+          { w: 1711, h: 2000, src: "/trabajo/minturina-identidad/galeria/07-estampado-cyan.jpg", pie: "Estampado en cian" },
+          { w: 1711, h: 2000, src: "/trabajo/minturina-identidad/galeria/08-estampado-rosa.jpg", pie: "Estampado en rosa" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1504, h: 1507, src: "/trabajo/minturina-identidad/galeria/09-colores.jpg", pie: "Paleta con sus valores" },
+          { w: 1504, h: 1507, src: "/trabajo/minturina-identidad/galeria/10-tipografias.jpg", pie: "Voga y Open Sans" },
         ],
       },
       {
