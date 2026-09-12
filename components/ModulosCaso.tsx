@@ -60,17 +60,26 @@ function Pie({ children }: { children: React.ReactNode }) {
 }
 
 /* Caja recortada, clicable */
+/* Cuánto mide la caja en pantalla, para que next/image pida el
+   derivado del tamaño correcto. El caso vive en una columna de
+   1100 px: una cuadrícula parte ese ancho en dos, una caja completa
+   lo ocupa entero. */
+const ANCHO_MEDIO = "(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 520px";
+const ANCHO_TOTAL = "(max-width: 1100px) 100vw, 1050px";
+
 function Recorte({
   imagen,
   proporcion,
   etiqueta,
   variante = 1,
+  sizes = ANCHO_MEDIO,
   onAbrir,
 }: {
   imagen: Imagen;
   proporcion: string;
   etiqueta: string;
   variante?: 1 | 2;
+  sizes?: string;
   onAbrir: () => void;
 }) {
   const recortada =
@@ -88,7 +97,7 @@ function Recorte({
         <Grafico
           src={imagen.src}
           alt={imagen.pie ?? ""}
-          sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 520px"
+          sizes={sizes}
           className="object-cover transition-transform duration-700 group-hover/img:scale-[1.03]"
         />
       ) : (
@@ -289,6 +298,7 @@ export default function ModulosCaso({ modulos }: { modulos: Modulo[] }) {
                   imagen={m.imagen}
                   proporcion={caja.proporcion}
                   etiqueta={caja.etiqueta}
+                  sizes={ANCHO_TOTAL}
                   onAbrir={() => setAbierta(idx)}
                 />
                 {m.imagen.pie && <Pie>{m.imagen.pie}</Pie>}

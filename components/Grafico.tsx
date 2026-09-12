@@ -18,12 +18,14 @@ export default function Grafico({
   alt = "",
   sizes,
   priority = false,
+  quality = 85,
   className = "object-cover",
 }: {
   src: string;
   alt?: string;
   sizes?: string;
   priority?: boolean;
+  quality?: number;
   className?: string;
 }) {
   const url = urlMedia(src);
@@ -46,6 +48,7 @@ export default function Grafico({
       fill
       sizes={sizes}
       priority={priority}
+      quality={quality}
       className={className}
     />
   );

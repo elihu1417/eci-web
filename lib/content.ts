@@ -763,7 +763,7 @@ export const PIEZAS: Pieza[] = [
     logo: "/trabajo/shiny-identidad/logo.svg",
     logoLleno: true,
     portada: "/trabajo/shiny-identidad/portada.jpg",
-    tarjeta: "/trabajo/shiny-identidad/tarjeta.svg",
+    tarjeta: "/trabajo/shiny-identidad/tarjeta.jpg",
     tarjetaHover: "/trabajo/shiny-identidad/tarjeta-hover.jpg",
     rubro: "marca",
     formato: "estatico",
