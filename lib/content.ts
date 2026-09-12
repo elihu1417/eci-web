@@ -149,6 +149,7 @@ export type Pieza = {
 export const LOGOS_CLIENTE: Record<string, string> = {
   "Don Neto": "/clientes/don-neto.svg",
   Minturina: "/clientes/minturina.svg",
+  Shiny: "/clientes/shiny.svg",
 };
 
 /* "A", "A y B", "A, B y C" — para créditos que se leen como frase */
@@ -283,7 +284,7 @@ export const PIEZAS: Pieza[] = [
     titulo: "Servicios",
     cliente: "Shiny",
     clienteId: "14_SHINY",
-    categoria: "Por definir",
+    categoria: "Limpieza de calzado",
     rubro: "reels",
     formato: "vertical",
     anio: 2025,
@@ -740,6 +741,158 @@ export const PIEZAS: Pieza[] = [
     ],
     cierre:
       "Este proyecto nos hizo descubrir que una categoría como la joyería podía tener una personalidad divertida y fuerte, y demostrar a la vez la calidad y delicadeza de sus creaciones.",
+    destacado: true,
+    orden: 7,
+    media: { tipo: "ninguno" },
+    galeria: 0,
+    demo: false,
+  },
+
+  /* ═══════════════════════════════════════════════════════════════
+     MARCA · Shiny — el caso más largo hasta ahora
+     Sistema, aplicaciones, piezas de diseño y una sesión de foto
+     propia. 127 MB de origen en 3.5 MB.
+     ═══════════════════════════════════════════════════════════════ */
+  {
+    slug: "shiny-identidad",
+    titulo: "Identidad Shiny",
+    cliente: "Shiny",
+    clienteId: "14_SHINY",
+    categoria: "Limpieza de calzado",
+    /* La reducción trae su propio fondo menta: llena la caja */
+    logo: "/trabajo/shiny-identidad/logo.svg",
+    logoLleno: true,
+    portada: "/trabajo/shiny-identidad/portada.jpg",
+    tarjeta: "/trabajo/shiny-identidad/tarjeta.svg",
+    tarjetaHover: "/trabajo/shiny-identidad/tarjeta-hover.jpg",
+    rubro: "marca",
+    formato: "estatico",
+    anio: 2025,
+    /* RESUMEN PROPUESTO: el documento de textos no trae uno. Sale de
+       describir lo que cuentan las secciones 2 y 3. */
+    resumen:
+      "Identidad para un estudio de limpieza y detallado de calzado de alta gama, construida sobre el contraste entre la luz y la sombra.",
+    contexto: {
+      titulo: "Sobre el proyecto",
+      parrafos: [
+        "El proyecto de Shiny venía con un concepto y un lugar al cual se quería llegar muy claro; sin embargo, no había podido aterrizar esa identidad y forma de comunicar que tanto lo podía diferenciar.",
+        "Apoyamos y co-creamos junto con Kevin, el dueño y creador de la marca, cada una de las piezas que poco a poco comenzaron a formar a Shiny desde dentro hacia fuera.",
+      ],
+    },
+    descripcion: [],
+    servicios: ["identidad-completa"],
+    metricas: [],
+    /* ORDEN PROPUESTO: este caso llegó sin ORDEN.txt. Las cajas se
+       eligieron por la proporción nativa de cada archivo, para
+       recortar lo menos posible. Las fotos cierran porque el tercer
+       texto habla justo de cómo se iluminan. */
+    modulos: [
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 2000, h: 1271, src: "/trabajo/shiny-identidad/galeria/01-tarjetas.jpg", pie: "Tarjetas de presentación" },
+          { w: 2000, h: 1166, src: "/trabajo/shiny-identidad/galeria/02-privilege-pass.jpg", pie: "Privilege Pass" },
+        ],
+      },
+      {
+        tipo: "completa",
+        imagen: { w: 1600, h: 900, src: "/trabajo/shiny-identidad/galeria/03-marca-puesta.jpg", pie: "La marca en el local" },
+      },
+
+      {
+        tipo: "texto",
+        titulo: "Personalidad",
+        parrafos: [
+          "Shiny es como el portero de una sala VIP: está al pendiente de cada detalle, es callado, se mueve entre las sombras y siempre cuida su imagen y su trato con los clientes que deja pasar.",
+          "Se encarga de dar mantenimiento, tratar y restaurar pares de todo tipo, pero se especializa en detallado para calzado de alta gama.",
+        ],
+      },
+      {
+        tipo: "completa",
+        imagen: { w: 1921, h: 1081, src: "/trabajo/shiny-identidad/galeria/04-reducciones.jpg", pie: "Logotipo y sus reducciones" },
+      },
+      {
+        tipo: "completa",
+        alto: "cuadro",
+        imagen: { w: 2000, h: 1500, src: "/trabajo/shiny-identidad/galeria/05-logo-relieve.jpg", pie: "El logotipo en relieve" },
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1504, h: 1507, src: "/trabajo/shiny-identidad/galeria/06-colores.jpg", pie: "Paleta" },
+          { w: 1505, h: 1507, src: "/trabajo/shiny-identidad/galeria/07-tipografias.jpg", pie: "Playball y Barlow" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1504, h: 1507, src: "/trabajo/shiny-identidad/galeria/08-iconos.jpg", pie: "Sistema de iconos" },
+          { w: 2000, h: 1500, src: "/trabajo/shiny-identidad/galeria/09-pines.jpg", pie: "Pines" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 2000, h: 1333, src: "/trabajo/shiny-identidad/galeria/10-gorra.jpg", pie: "Gorra" },
+          { w: 2000, h: 1333, src: "/trabajo/shiny-identidad/galeria/11-playera-clara.jpg", pie: "Playera clara" },
+        ],
+      },
+      {
+        tipo: "completa",
+        imagen: { w: 2000, h: 1091, src: "/trabajo/shiny-identidad/galeria/12-uniforme.jpg", pie: "El uniforme en el estudio" },
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1998, h: 2000, src: "/trabajo/shiny-identidad/galeria/13-playera-oscura.jpg", pie: "Playera oscura" },
+          { w: 1294, h: 2000, src: "/trabajo/shiny-identidad/galeria/14-invitacion.jpg", pie: "Invitación de apertura" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1125, h: 2000, src: "/trabajo/shiny-identidad/galeria/15-menu.jpg", pie: "Menú de servicios" },
+          { w: 1118, h: 2000, src: "/trabajo/shiny-identidad/galeria/16-menu-historia.jpg", pie: "El menú en historias" },
+        ],
+      },
+
+      {
+        tipo: "texto",
+        titulo: "Dirección",
+        parrafos: [
+          "Una mezcla de speakeasy, lo industrial y la atención por los detalles fue la base de este proyecto. De ahí se desglosa una dirección que busca representar un contraste entre la luz —la limpieza— y las sombras —lo sucio—.",
+          "Este concepto se repite tanto en la construcción del logo como en los gráficos y en la forma de iluminar las fotografías.",
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1600, h: 1600, src: "/trabajo/shiny-identidad/galeria/17-foto-lavado.jpg", pie: "El lavado" },
+          { w: 1600, h: 1600, src: "/trabajo/shiny-identidad/galeria/18-foto-cepillo.jpg", pie: "Cepillo y detalle" },
+        ],
+      },
+      {
+        tipo: "completa",
+        alto: "cuadro",
+        imagen: { w: 1600, h: 1200, src: "/trabajo/shiny-identidad/galeria/19-foto-agua.jpg", pie: "Agua sobre negro" },
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1273, h: 1600, src: "/trabajo/shiny-identidad/galeria/20-foto-pares.jpg", pie: "Pares en prueba" },
+          { w: 1201, h: 1600, src: "/trabajo/shiny-identidad/galeria/21-foto-par-cenital.jpg", pie: "El par, desde arriba" },
+        ],
+      },
+      {
+        tipo: "cuadricula",
+        imagenes: [
+          { w: 1321, h: 1600, src: "/trabajo/shiny-identidad/galeria/22-foto-detalle.jpg", pie: "El detalle" },
+          { w: 900, h: 1600, src: "/trabajo/shiny-identidad/galeria/23-foto-llavero.jpg", pie: "Terminado y entregado" },
+        ],
+      },
+    ],
+    cierre:
+      "Este proyecto es un ejemplo de la atención al detalle y de cómo no solo de forma visual se genera una experiencia, sino también cuidando cada aspecto del recorrido del consumidor cuando está en contacto con la marca.",
     destacado: true,
     orden: 7,
     media: { tipo: "ninguno" },
