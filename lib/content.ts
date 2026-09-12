@@ -809,7 +809,7 @@ export const PIEZAS: Pieza[] = [
       },
       {
         tipo: "completa",
-        imagen: { w: 1921, h: 1081, src: "/trabajo/shiny-identidad/galeria/04-reducciones.jpg", pie: "Logotipo y sus reducciones" },
+        imagen: { w: 1921, h: 1081, src: "/trabajo/shiny-identidad/galeria/04-reducciones.png", pie: "Logotipo y sus reducciones" },
       },
       {
         tipo: "completa",
@@ -819,14 +819,14 @@ export const PIEZAS: Pieza[] = [
       {
         tipo: "cuadricula",
         imagenes: [
-          { w: 1504, h: 1507, src: "/trabajo/shiny-identidad/galeria/06-colores.jpg", pie: "Paleta" },
-          { w: 1505, h: 1507, src: "/trabajo/shiny-identidad/galeria/07-tipografias.jpg", pie: "Playball y Barlow" },
+          { w: 1504, h: 1507, src: "/trabajo/shiny-identidad/galeria/06-colores.png", pie: "Paleta" },
+          { w: 1505, h: 1507, src: "/trabajo/shiny-identidad/galeria/07-tipografias.png", pie: "Playball y Barlow" },
         ],
       },
       {
         tipo: "cuadricula",
         imagenes: [
-          { w: 1504, h: 1507, src: "/trabajo/shiny-identidad/galeria/08-iconos.jpg", pie: "Sistema de iconos" },
+          { w: 1504, h: 1507, src: "/trabajo/shiny-identidad/galeria/08-iconos.png", pie: "Sistema de iconos" },
           { w: 2000, h: 1500, src: "/trabajo/shiny-identidad/galeria/09-pines.jpg", pie: "Pines" },
         ],
       },
